@@ -1,11 +1,10 @@
 package com.gsaul.AethonSimulator;
 
 import javax.swing.*;
-import java.awt.*;
+import java.nio.file.*;
 
 public class LifeSupport extends JPanel {
-    public LifeSupport() {
-        setLayout(new FlowLayout());
+    public LifeSupport(FileSystem fs) {
         JLabel test = new JLabel("JLabel ls");
         add(test);
     }
