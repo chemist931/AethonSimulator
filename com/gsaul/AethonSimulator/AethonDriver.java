@@ -19,13 +19,9 @@ public class AethonDriver {
         advancer.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
-                update();
+                control.updateVars();
             }
         }, 0, 1, TimeUnit.SECONDS);
-    }
-
-    private static void update() {
-        control.updateVars();
     }
 }
 
