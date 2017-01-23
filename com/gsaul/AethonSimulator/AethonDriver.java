@@ -1,4 +1,4 @@
-package com.gsaul.AethonSimulator;
+package gsaul.AethonSimulator;
 
 import java.util.concurrent.*;
 import javax.swing.*;
