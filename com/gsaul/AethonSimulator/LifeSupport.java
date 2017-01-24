@@ -40,8 +40,9 @@ public class LifeSupport extends JPanel {
     private double capTemp; //capsule temperature
     private double capHum; //capsule humidity
     private double wattDraw; //wattage draw
+    private Object[] boolArr = new Object[]{inFans, 0.75, airFil, 5, coScrub, 5, oReg, 5, nReg, 5, tReg, 5, hReg, 5, oFans, 5, dOpen, 5, oProd, 5, ROFil, 5, uBoil, 5};
 
-    public LifeSupport() {
+    LifeSupport() {
         JLabel test = new JLabel("JLabel ls");
         add(test);
 
@@ -62,20 +63,29 @@ public class LifeSupport extends JPanel {
         return wattDraw;
     }
 
-    public void updateVars(double soc) {
+    void updateVars(double soc) {
         if(soc<0) { //check for out of power
-            inFans=false;
-            airFil=false;
-            coScrub=false;
-            oReg=false;
-            nReg=false;
-            uBoil=false;
-            tReg=false;
-            oReg=false;
-            oFans=false;
-            oProd=false;
-            ROFil=false;
-            hReg=false;
+            turnAllOff();
         }
+        doDraw(Draw.makeDrawArray(boolArr));
+    }
+
+    private void turnAllOff() {
+        inFans = false;
+        airFil = false;
+        coScrub = false;
+        oReg = false;
+        nReg = false;
+        uBoil = false;
+        tReg = false;
+        oReg = false;
+        oFans = false;
+        oProd = false;
+        ROFil = false;
+        hReg = false;
+        wattDraw = 0;
+    }
+
+    private void doDraw(Draw[] drawArr) {
     }
 }
