@@ -1,11 +1,13 @@
 package gsaul.AethonSimulator;
 
 import javax.swing.*;
+import java.awt.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class LifeSupport extends JPanel {
+public class LifeSupport extends JPanel
+{
     private boolean inFans; //intake fans on/off
     private boolean airFil; //air filter on/off
     private double airFilPres; //air filter pressure
@@ -39,53 +41,67 @@ public class LifeSupport extends JPanel {
     private double capPres; //capsule pressure
     private double capTemp; //capsule temperature
     private double capHum; //capsule humidity
-    private double wattDraw; //wattage draw
-    private Object[] boolArr = new Object[]{inFans, 0.75, airFil, 5, coScrub, 5, oReg, 5, nReg, 5, tReg, 5, hReg, 5, oFans, 5, dOpen, 5, oProd, 5, ROFil, 5, uBoil, 5};
+    private double ampDraw; //wattage draw
+    private Object[] boolArr=new Object[]{inFans, 0.75, airFil, 5, coScrub, 5, oReg, 5, nReg, 5, tReg, 5, hReg, 5, oFans, 5, dOpen, 5, oProd, 5, ROFil, 5, uBoil, 5};
 
-    LifeSupport() {
-        JLabel test = new JLabel("JLabel ls");
-        add(test);
-
+    LifeSupport()
+    {
+        setLayout(new GridLayout(10, 1));
         //check if save file exists
-        Path oldSave = Paths.get("/var/ls/ls.json");
-        Path masterKey = Paths.get("/var/ls/masterKey.json");
+        Path oldSave=Paths.get("/var/ls/ls.json");
+        Path masterKey=Paths.get("/var/ls/masterKey.json");
         if(!Files.exists(oldSave))
             readSaveIntoMemory(masterKey);
         else
             readSaveIntoMemory(oldSave);
     }
 
-    private static void readSaveIntoMemory(Path save) {
+    private static void readSaveIntoMemory(Path save)
+    {
 
     }
 
-    public double getDraw() {
-        return wattDraw;
+    public double getDraw()
+    {
+        return ampDraw;
     }
 
-    void updateVars(double soc) {
-        if(soc<0) { //check for out of power
+    void updateVars(double soc)
+    {
+        ampDraw=0;
+        if(soc<=0) //check for out of power
             turnAllOff();
+        else
+        {
+            for(int a=0; a<boolArr.length; a+=2)
+                if(Boolean.parseBoolean(boolArr[a].toString()))
+                    ampDraw+=Double.parseDouble((String) boolArr[a+1]);
         }
-        doDraw(Draw.makeDrawArray(boolArr));
+        calcDraw(Draw.makeDrawArrayBool(boolArr));
     }
 
-    private void turnAllOff() {
-        inFans = false;
-        airFil = false;
-        coScrub = false;
-        oReg = false;
-        nReg = false;
-        uBoil = false;
-        tReg = false;
-        oReg = false;
-        oFans = false;
-        oProd = false;
-        ROFil = false;
-        hReg = false;
-        wattDraw = 0;
+    private void turnAllOff()
+    {
+        inFans=false;
+        airFil=false;
+        coScrub=false;
+        oReg=false;
+        nReg=false;
+        uBoil=false;
+        tReg=false;
+        oReg=false;
+        oFans=false;
+        oProd=false;
+        ROFil=false;
+        hReg=false;
+        ampDraw=0;
     }
 
-    private void doDraw(Draw[] drawArr) {
+    private double calcDraw(Draw[] drawArr)
+    {
+        double ret=0;
+        for(int a=0; a<drawArr.length; a++)
+            ret+=drawArr[a].getDraw();
+        return ret;
     }
 }
