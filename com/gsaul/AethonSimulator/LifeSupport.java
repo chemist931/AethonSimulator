@@ -42,7 +42,7 @@ public class LifeSupport extends JPanel
     private double capTemp; //capsule temperature
     private double capHum; //capsule humidity
     private double ampDraw; //wattage draw
-    private Object[] boolArr=new Object[]{inFans, 0.75, airFil, 5, coScrub, 5, oReg, 5, nReg, 5, tReg, 5, hReg, 5, oFans, 5, dOpen, 5, oProd, 5, ROFil, 5, uBoil, 5};
+    private Object[] boolArr=new Object[]{inFans, 0.75, airFil, 1.25, coScrub, 1.5, oReg, 6, nReg, 6, tReg, 8, hReg, 3, oFans, 0.75, dOpen, 0.2, oProd, 25, ROFil, 9, uBoil, 20};
 
     LifeSupport()
     {
@@ -54,6 +54,17 @@ public class LifeSupport extends JPanel
             readSaveIntoMemory(masterKey);
         else
             readSaveIntoMemory(oldSave);
+
+        JButton inFBut=new JButton("Intake Fans: "+Boolean.toString(inFans));
+        inFBut.setEnabled(false);
+        JButton airFBut=new JButton("Air Filter: "+Boolean.toString(airFil));
+        airFBut.setEnabled(false);
+        JButton coSBut=new JButton("CO2 Scrubber: "+Boolean.toString(airFil));
+        coSBut.setActionCommand("coScrub");
+        JButton oRBut=new JButton("O2 Regulator: "+Boolean.toString(oReg));
+        oRBut.setActionCommand("oReg");
+        JButton nRBut=new JButton("N2 Regulator: "+Boolean.toString(nReg));
+        nRBut.setActionCommand("nReg");
     }
 
     private static void readSaveIntoMemory(Path save)
