@@ -65,6 +65,9 @@ public class LifeSupport extends JPanel
         oRBut.setActionCommand("oReg");
         JButton nRBut=new JButton("N2 Regulator: "+Boolean.toString(nReg));
         nRBut.setActionCommand("nReg");
+        JButton tRBut=new JButton("Temperature Regulator: "+Boolean.toString(tReg));
+        tRBut.setActionCommand("tReg");
+
     }
 
     private static void readSaveIntoMemory(Path save)
