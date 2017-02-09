@@ -5,6 +5,7 @@ import java.awt.*;
 
 class ElectricalSystems extends JPanel
 {
+    Reactor reactor=new Reactor();
     private double batt1Ah; //if reactor power doesn't cover all draw, remove from batts equally
     private double batt2ah;
     private double batt3ah;
@@ -35,4 +36,6 @@ class ElectricalSystems extends JPanel
     {
         return;
     }
+
+    //set reactor percent button/field
 }

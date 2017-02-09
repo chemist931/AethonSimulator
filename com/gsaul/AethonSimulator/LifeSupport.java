@@ -1,10 +1,8 @@
 package gsaul.AethonSimulator;
 
-import javax.swing.*;
-import java.awt.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import java.awt.GridLayout;
 
 public class LifeSupport extends JPanel
 {
@@ -41,19 +39,14 @@ public class LifeSupport extends JPanel
     private double capPres; //capsule pressure
     private double capTemp; //capsule temperature
     private double capHum; //capsule humidity
+    private double capO2; //capsule O2 level
+    private double capCO2; //capsule CO2 level
     private double ampDraw; //wattage draw
     private Object[] boolArr=new Object[]{inFans, 0.75, airFil, 1.25, coScrub, 1.5, oReg, 6, nReg, 6, tReg, 8, hReg, 3, oFans, 0.75, dOpen, 0.2, oProd, 25, ROFil, 9, uBoil, 20}; //first string is the var, second double is the amp expectation/3600
 
     LifeSupport()
     {
         setLayout(new GridLayout(10, 1));
-        //check if save file exists
-        Path oldSave=Paths.get("/var/ls/ls.json");
-        Path masterKey=Paths.get("/var/ls/masterKey.json");
-        if(!Files.exists(oldSave))
-            readSaveIntoMemory(masterKey);
-        else
-            readSaveIntoMemory(oldSave);
 
         JButton inFBut=new JButton("Intake Fans: "+Boolean.toString(inFans));
         inFBut.setEnabled(false);
@@ -67,12 +60,9 @@ public class LifeSupport extends JPanel
         nRBut.setActionCommand("nReg");
         JButton tRBut=new JButton("Temperature Regulator: "+Boolean.toString(tReg));
         tRBut.setActionCommand("tReg");
-
-    }
-
-    private static void readSaveIntoMemory(Path save)
-    {
-
+        JButton hRBut=new JButton("Humidity Regulator: "+Boolean.toString(hReg));
+        hRBut.setActionCommand("hReg");
+        //JButton oFans=new JButton("Output ")
     }
 
     double getDraw()
