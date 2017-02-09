@@ -42,7 +42,7 @@ public class LifeSupport extends JPanel
     private double capTemp; //capsule temperature
     private double capHum; //capsule humidity
     private double ampDraw; //wattage draw
-    private Object[] boolArr=new Object[]{inFans, 0.75, airFil, 1.25, coScrub, 1.5, oReg, 6, nReg, 6, tReg, 8, hReg, 3, oFans, 0.75, dOpen, 0.2, oProd, 25, ROFil, 9, uBoil, 20};
+    private Object[] boolArr=new Object[]{inFans, 0.75, airFil, 1.25, coScrub, 1.5, oReg, 6, nReg, 6, tReg, 8, hReg, 3, oFans, 0.75, dOpen, 0.2, oProd, 25, ROFil, 9, uBoil, 20}; //first string is the var, second double is the amp expectation/3600
 
     LifeSupport()
     {
@@ -75,7 +75,7 @@ public class LifeSupport extends JPanel
 
     }
 
-    public double getDraw()
+    double getDraw()
     {
         return ampDraw;
     }
@@ -114,8 +114,7 @@ public class LifeSupport extends JPanel
     private double calcDraw(Draw[] drawArr)
     {
         double ret=0;
-        for(int a=0; a<drawArr.length; a++)
-            ret+=drawArr[a].getDraw();
+        for(Draw aDrawArr : drawArr) ret+=aDrawArr.getDraw();
         return ret;
     }
 }

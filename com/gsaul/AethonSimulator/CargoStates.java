@@ -7,10 +7,21 @@ import java.nio.file.Path;
 
 public class CargoStates extends JPanel
 {
+    private double draw;
     public CargoStates()
     {
         setLayout(new FlowLayout());
         JLabel test = new JLabel("JLabel cs");
         add(test);
+    }
+
+    public void updateVars(double soc)
+    {
+        return;
+    }
+
+    public double getDraw()
+    {
+        return draw;
     }
 }

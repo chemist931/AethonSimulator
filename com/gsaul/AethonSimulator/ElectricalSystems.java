@@ -2,20 +2,37 @@ package gsaul.AethonSimulator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.nio.file.FileSystem;
-import java.nio.file.Path;
 
-public class ElectricalSystems extends JPanel
+class ElectricalSystems extends JPanel
 {
-    public ElectricalSystems()
+    private double batt1Ah; //if reactor power doesn't cover all draw, remove from batts equally
+    private double batt2ah;
+    private double batt3ah;
+    private double batt4ah;
+    private double battTot; //Ah of all batteries total
+    private final double battInMax=0; //Ah of individual battery maximum
+    private final double battMax=0; //Ah of all batteries maximum
+    private double wasteHeat; //waste reactor heat
+
+    ElectricalSystems()
     {
         setLayout(new FlowLayout());
-        JLabel test = new JLabel("JLabel es");
+        JLabel test=new JLabel("JLabel es");
         add(test);
     }
 
-    public double getSOC()
+    double getSOC()
     {
-        return 555.555;
+        return battMax-battTot;
+    }
+
+    public double getHeat()
+    {
+        return wasteHeat;
+    }
+
+    public void updateVars(double draw)
+    {
+        return;
     }
 }
