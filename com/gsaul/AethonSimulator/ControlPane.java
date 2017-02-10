@@ -2,6 +2,7 @@ package gsaul.AethonSimulator;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 
 class ControlPane extends JPanel
 {
@@ -14,6 +15,14 @@ class ControlPane extends JPanel
 
     ControlPane()
     {
+        try
+        {
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+        }
+        catch(Exception e)
+        {
+            System.out.println("Look and Feel failed");
+        }
         JTabbedPane tbp = new JTabbedPane();
         tbp.setTabPlacement(JTabbedPane.LEFT);
 
