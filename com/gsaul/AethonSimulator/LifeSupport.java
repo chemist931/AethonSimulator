@@ -62,7 +62,28 @@ public class LifeSupport extends JPanel
         tRBut.setActionCommand("tReg");
         JButton hRBut=new JButton("Humidity Regulator: "+Boolean.toString(hReg));
         hRBut.setActionCommand("hReg");
-        //JButton oFans=new JButton("Output ")
+        JButton oFanBut=new JButton("Output Fans: "+Boolean.toString(oFans));
+        oFanBut.setEnabled(false);
+        JButton dState=new JButton("Dumper State: "+Boolean.toString(dOpen));
+        dState.setActionCommand("dumperToggle");
+        JButton oProBut=new JButton("O2 Producer: "+Boolean.toString(oProd));
+        oProBut.setActionCommand("oProd");
+        JButton roFilBut=new JButton("RO Filter: "+Boolean.toString(ROFil));
+        roFilBut.setActionCommand("ROFil");
+        JButton uBoilBut=new JButton("Urine Boiler: "+Boolean.toString(uBoil));
+        uBoilBut.setActionCommand("uBoil");
+        add(airFBut);
+        add(coSBut);
+        add(dState);
+        add(hRBut);
+        add(inFBut);
+        add(nRBut);
+        add(oFanBut);
+        add(oProBut);
+        add(oRBut);
+        add(roFilBut);
+        add(tRBut);
+        add(uBoilBut);
     }
 
     double getDraw()

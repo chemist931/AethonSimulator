@@ -1,6 +1,8 @@
 package gsaul.AethonSimulator;
 
-import java.util.concurrent.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 
 public class AethonDriver
@@ -16,7 +18,7 @@ public class AethonDriver
         frame.setContentPane(control);
         frame.setResizable(false);
         frame.setVisible(true);
-
+        frame.setIconImage(new ImageIcon("lib/icon.png").getImage());
         final ScheduledExecutorService advancer = Executors.newSingleThreadScheduledExecutor();
         advancer.scheduleWithFixedDelay(new Runnable()
         {
