@@ -1,17 +1,17 @@
 package gsaul.AethonSimulator;
 
-public class Bearing
+public class Attitude
 {
     double x, y, z;
 
-    public Bearing()
+    public Attitude()
     {
         x=0;
         y=0;
         z=0;
     }
 
-    public Bearing(double a, double b, double c)
+    public Attitude(double a, double b, double c)
     {
         x=a;
         y=b;
@@ -48,7 +48,7 @@ public class Bearing
         this.z=z;
     }
 
-    public boolean equals(Bearing b)
+    public boolean equals(Attitude b)
     {
         return x==b.getX() && y==b.getY() && z==b.getZ();
     }

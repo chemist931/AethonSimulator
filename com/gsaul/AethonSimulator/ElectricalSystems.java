@@ -5,15 +5,11 @@ import java.awt.*;
 
 class ElectricalSystems extends JPanel
 {
-    Reactor reactor=new Reactor();
-    private double batt1Ah; //if reactor power doesn't cover all draw, remove from batts equally
-    private double batt2ah;
-    private double batt3ah;
-    private double batt4ah;
+    Reactor reactor=new Reactor(50);
+    private double[] batts=new double[4];
     private double battTot; //Ah of all batteries total
     private final double battInMax=0; //Ah of individual battery maximum
     private final double battMax=0; //Ah of all batteries maximum
-    private double wasteHeat; //waste reactor heat
 
     ElectricalSystems()
     {
@@ -27,15 +23,23 @@ class ElectricalSystems extends JPanel
         return battMax-battTot;
     }
 
-    public double getHeat()
+    void updateVars(double draw)
     {
-        return wasteHeat;
+        calcBattDelta(draw);
     }
 
-    public void updateVars(double draw)
+    private double calcBattDelta(double draw)
     {
-        return;
-    }
+        double first=battTot;
+        double net=(reactor.getEC()-draw)/batts.length;
+        for(int a=0; a<batts.length; a++)
+        {
+            batts[a]+=net;
+            if(batts[a]>battInMax)
+                batts[a]=battInMax;
+        }
+        for(double batt : batts) battTot+=batt;
 
-    //set reactor percent button/field
+        return battTot-first;
+    }
 }

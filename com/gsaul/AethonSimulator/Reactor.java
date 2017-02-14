@@ -6,8 +6,11 @@ public class Reactor
     private int myPercent=0;
     private double ECGen=0;
 
-    Reactor()
+    Reactor(int nPercent)
     {
+        myPercent=nPercent;
+        ECGen=myPercent/100;
+        wasteHeat=ECGen;
     }
 
     public double getHeat()

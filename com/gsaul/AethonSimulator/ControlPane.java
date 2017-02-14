@@ -1,17 +1,14 @@
 package gsaul.AethonSimulator;
 
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.UIManager;
+import javax.swing.*;
 
 class ControlPane extends JPanel
 {
     private LifeSupport ls = new LifeSupport();
     private AttNav an = new AttNav();
-    private PropulsionSystems ps = new PropulsionSystems();
     private ElectricalSystems es = new ElectricalSystems();
     private CargoStates cs = new CargoStates();
-    private Bearing currBear;
+    private Attitude currAtt;
 
     ControlPane()
     {
@@ -28,7 +25,6 @@ class ControlPane extends JPanel
 
         tbp.addTab("Life Support", ls);
         tbp.addTab("Attitude/Navigation", an);
-        tbp.addTab("Propulsion Systems", ps);
         tbp.addTab("Electrical Systems", es);
         tbp.addTab("Cargo States", cs);
         add(tbp);
@@ -38,8 +34,8 @@ class ControlPane extends JPanel
     {
         double soc=es.getSOC();
         ls.updateVars(soc);
-        currBear=an.updateVars(soc, ps.updateVars(soc, es.getHeat()));
+        currAtt=an.updateVars(soc);
         cs.updateVars(soc);
-        es.updateVars(ls.getDraw()+an.getDraw()+ps.getDraw()+cs.getDraw());
+        es.updateVars(ls.getDraw()+cs.getDraw()+an.getDraw());
     }
 }

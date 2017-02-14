@@ -2,12 +2,10 @@ package gsaul.AethonSimulator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.nio.file.FileSystem;
-import java.nio.file.Path;
 
 public class AttNav extends JPanel
 {
-    Bearing currBear=new Bearing();
+    private Attitude currBear=new Attitude();
     private double draw;
 
     public AttNav()
@@ -17,12 +15,12 @@ public class AttNav extends JPanel
         add(test);
     }
 
-    Bearing updateVars(double soc, double kilometers)
+    Attitude updateVars(double soc)
     {
         return currBear;
     }
 
-    public double getDraw()
+    double getDraw()
     {
         return draw;
     }
