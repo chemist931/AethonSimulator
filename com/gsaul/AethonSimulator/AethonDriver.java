@@ -1,6 +1,7 @@
 package gsaul.AethonSimulator;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +12,8 @@ public class AethonDriver
 
     public static void main(String[] args)
     {
+        final SplashScreen splash = SplashScreen.getSplashScreen();
+        Graphics2D g = splash.createGraphics();
         JFrame frame = new JFrame("Aethon Control Panel");
         frame.setSize(1366, 768);
         frame.setLocation(0, 0);
