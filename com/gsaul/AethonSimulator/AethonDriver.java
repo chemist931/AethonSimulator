@@ -26,4 +26,3 @@ public class AethonDriver
         advancer.scheduleWithFixedDelay(() -> control.updateVars(), 0, 1, TimeUnit.SECONDS);
     }
 }
-

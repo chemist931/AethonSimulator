@@ -5,7 +5,7 @@ import java.awt.*;
 
 class ElectricalSystems extends JPanel
 {
-    Reactor reactor=new Reactor(50);
+    private Reactor reactor=new Reactor(50);
     private double[] batts=new double[4];
     private double battTot; //Ah of all batteries total
     private final double battInMax=0; //Ah of individual battery maximum

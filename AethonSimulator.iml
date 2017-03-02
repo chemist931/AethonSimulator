@@ -9,11 +9,16 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.jimfs:jimfs:1.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:18.0" level="project" />
-    <orderEntry type="library" name="Maven: javax.json:javax.json-api:1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
     <orderEntry type="library" name="Maven: javax.json:javax.json-api:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.orekit:orekit:8.0" level="project" />
+    <orderEntry type="library" name="Maven: org.hipparchus:hipparchus-core:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.hipparchus:hipparchus-geometry:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.hipparchus:hipparchus-ode:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.hipparchus:hipparchus-fitting:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.hipparchus:hipparchus-optim:1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.hipparchus:hipparchus-stat:1.0" level="project" />
   </component>
 </module>

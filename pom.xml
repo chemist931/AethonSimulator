@@ -19,7 +19,11 @@
     <artifactId>javax.json-api</artifactId>
     <version>1.0</version>
 </dependency>
-
+      <dependency>
+          <groupId>org.orekit</groupId>
+          <artifactId>orekit</artifactId>
+          <version>8.0</version>
+      </dependency>
   </dependencies>
   <build>
     <plugins>
