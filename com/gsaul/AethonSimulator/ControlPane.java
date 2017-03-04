@@ -34,7 +34,7 @@ class ControlPane extends JPanel
     {
         double soc=es.getSOC();
         ls.updateVars(soc);
-        currAtt=an.updateVars(soc);
+        an.updateVars(soc);
         cs.updateVars(soc);
         es.updateVars(ls.getDraw()+cs.getDraw()+an.getDraw());
     }
