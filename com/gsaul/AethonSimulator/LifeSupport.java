@@ -24,10 +24,6 @@ public class LifeSupport extends JPanel
     private double dFill; //dumper fill level
     private boolean dOpen; //dumper open/closed
     private boolean oProd; //o2 producer on/off
-    private double oProdCoTank; //o2 producer co2 tank pressure
-    private double oProdOTank; //o2 producer o2 tank pressure
-    private double oProdPres; //o2 producer chamber pressure
-    private double oProdTemp; //o2 producer chamber temperature
     private double WWTankLev; //wastewater tank level
     private boolean ROFil; //RO filter on/off
     private double ROPres; //RO filter pressure

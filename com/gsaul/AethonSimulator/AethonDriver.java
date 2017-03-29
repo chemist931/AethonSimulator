@@ -1,7 +1,10 @@
 package gsaul.AethonSimulator;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+import java.awt.Graphics2D;
+import java.awt.SplashScreen;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
