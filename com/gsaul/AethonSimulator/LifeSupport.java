@@ -2,126 +2,13 @@ package gsaul.AethonSimulator;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import java.awt.GridLayout;
+import java.awt.*;
 
 public class LifeSupport extends JPanel
 {
-    private boolean inFans; //intake fans on/off
-    private boolean airFil; //air filter on/off
-    private double airFilPres; //air filter pressure
-    private boolean coScrub; //co2 scrubber on/off
-    private double coScrubPres; //co2 scrubber pressure
-    private boolean oReg; //o2 regulator on/off
-    private double oRegPres; //o2 regulator pressure
-    private double oTankPres; //o2 tank pressure
-    private boolean nReg; //n2 regulator on/off
-    private double nRegPres; //n2 regulator pressure
-    private double nTankPres; //n2 tank pressure
-    private boolean tReg; //heater on/off
-    private double tRegTemp; //heater output temperature
-    private boolean hReg; //humidity regulator on/off
-    private boolean oFans; //output fans on/off
-    private double dFill; //dumper fill level
-    private boolean dOpen; //dumper open/closed
-    private boolean oProd; //o2 producer on/off
-    private double WWTankLev; //wastewater tank level
-    private boolean ROFil; //RO filter on/off
-    private double ROPres; //RO filter pressure
-    private double pTankLev; //purewater tank level
-    private boolean uBoil; //urine boiler on/off
-    private double uTankLev; //urine tank level
-    private double uBoilTemp; //urine boiler temperature
-    private double uBoilPres; //urine boiler pressure
-    private double capPres; //capsule pressure
-    private double capTemp; //capsule temperature
-    private double capHum; //capsule humidity
-    private double capO2; //capsule O2 level
-    private double capCO2; //capsule CO2 level
-    private double ampDraw; //wattage draw
-    private Object[] boolArr=new Object[]{inFans, 0.75, airFil, 1.25, coScrub, 1.5, oReg, 6, nReg, 6, tReg, 8, hReg, 3, oFans, 0.75, dOpen, 0.2, oProd, 25, ROFil, 9, uBoil, 20}; //first string is the var, second double is the amp expectation/3600
-
     LifeSupport()
     {
-        setLayout(new GridLayout(10, 1));
-
-        JButton inFBut=new JButton("Intake Fans: "+Boolean.toString(inFans));
-        inFBut.setEnabled(false);
-        JButton airFBut=new JButton("Air Filter: "+Boolean.toString(airFil));
-        airFBut.setEnabled(false);
-        JButton coSBut=new JButton("CO2 Scrubber: "+Boolean.toString(airFil));
-        coSBut.setActionCommand("coScrub");
-        JButton oRBut=new JButton("O2 Regulator: "+Boolean.toString(oReg));
-        oRBut.setActionCommand("oReg");
-        JButton nRBut=new JButton("N2 Regulator: "+Boolean.toString(nReg));
-        nRBut.setActionCommand("nReg");
-        JButton tRBut=new JButton("Temperature Regulator: "+Boolean.toString(tReg));
-        tRBut.setActionCommand("tReg");
-        JButton hRBut=new JButton("Humidity Regulator: "+Boolean.toString(hReg));
-        hRBut.setActionCommand("hReg");
-        JButton oFanBut=new JButton("Output Fans: "+Boolean.toString(oFans));
-        oFanBut.setEnabled(false);
-        JButton dState=new JButton("Dumper State: "+Boolean.toString(dOpen));
-        dState.setActionCommand("dumperToggle");
-        JButton oProBut=new JButton("O2 Producer: "+Boolean.toString(oProd));
-        oProBut.setActionCommand("oProd");
-        JButton roFilBut=new JButton("RO Filter: "+Boolean.toString(ROFil));
-        roFilBut.setActionCommand("ROFil");
-        JButton uBoilBut=new JButton("Urine Boiler: "+Boolean.toString(uBoil));
-        uBoilBut.setActionCommand("uBoil");
-        add(airFBut);
-        add(coSBut);
-        add(dState);
-        add(hRBut);
-        add(inFBut);
-        add(nRBut);
-        add(oFanBut);
-        add(oProBut);
-        add(oRBut);
-        add(roFilBut);
-        add(tRBut);
-        add(uBoilBut);
-    }
-
-    double getDraw()
-    {
-        return ampDraw;
-    }
-
-    void updateVars(double soc)
-    {
-        ampDraw=0;
-        if(soc<=0) //check for out of power
-            turnAllOff();
-        else
-        {
-            for(int a=0; a<boolArr.length; a+=2)
-                if(Boolean.parseBoolean(boolArr[a].toString()))
-                    ampDraw+=Double.parseDouble((String) boolArr[a+1]);
-        }
-        calcDraw(Draw.makeDrawArrayBool(boolArr));
-    }
-
-    private void turnAllOff()
-    {
-        inFans=false;
-        airFil=false;
-        coScrub=false;
-        oReg=false;
-        nReg=false;
-        uBoil=false;
-        tReg=false;
-        oReg=false;
-        oFans=false;
-        oProd=false;
-        ROFil=false;
-        hReg=false;
-        ampDraw=0;
-    }
-
-    private double calcDraw(Draw[] drawArr)
-    {
-        double ret=0;
-        for(Draw aDrawArr : drawArr) ret+=aDrawArr.getDraw();
-        return ret;
+        setLayout(new GridLayout(10, 2));
+        setBackground(Color.DARK_GRAY.darker());
     }
 }
