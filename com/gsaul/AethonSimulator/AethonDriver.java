@@ -6,9 +6,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.SplashScreen;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class AethonDriver
 {
@@ -20,6 +17,7 @@ public class AethonDriver
 
     public static void main(String[] args) throws Exception
     {
+        ControlService controller = new ControlService();
         UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         UIManager.getLookAndFeelDefaults().put("Panel.background", Color.BLACK);
         final SplashScreen splash = SplashScreen.getSplashScreen();
@@ -42,6 +40,7 @@ public class AethonDriver
         {
             frameArray[a].setExtendedState(JFrame.MAXIMIZED_BOTH);
             frameArray[a].setUndecorated(true);
+            frameArray[a].setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frameArray[a].setVisible(true);
         }*/
 
@@ -49,15 +48,8 @@ public class AethonDriver
         {
             frameArray[a].setSize(1280, 1024);
             frameArray[a].setUndecorated(true);
+            frameArray[a].setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frameArray[a].setVisible(true);
         }
-
-        final ScheduledExecutorService advancer = Executors.newScheduledThreadPool(4);
-        advancer.scheduleWithFixedDelay(AethonDriver::updateVars, 0, 125, TimeUnit.MILLISECONDS);
-    }
-
-    private static void updateVars()
-    {
-
     }
 }

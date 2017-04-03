@@ -1,8 +1,8 @@
 package gsaul.AethonSimulator;
 
-public class Reactor
+class Reactor
 {
-    private double wasteHeat=0;
+    private double heat=0;
     private int myPercent=0;
     private double ECGen=0;
 
@@ -10,28 +10,28 @@ public class Reactor
     {
         myPercent=nPercent;
         ECGen=myPercent/100;
-        wasteHeat=ECGen;
+        heat=ECGen;
     }
 
-    public double getHeat()
+    double getHeat()
     {
-        return wasteHeat;
+        return heat;
     }
 
-    public int getPercent()
+    int getPercent()
     {
         return myPercent;
     }
 
-    public double getEC()
+    double getEC()
     {
         return ECGen;
     }
 
-    public void setPercent(int x)
+    void setPercent(int x)
     {
         myPercent=x;
-        ECGen=x/100;
-        wasteHeat=ECGen;
+        ECGen=myPercent*100;
+        heat=ECGen;
     }
 }
