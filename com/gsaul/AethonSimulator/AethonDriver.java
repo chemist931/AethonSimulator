@@ -6,9 +6,17 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.SplashScreen;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class AethonDriver
 {
+    private static JFrame lsFrame;
+    private static JFrame lsFrameAtmo;
+    private static JFrame attFrame;
+    private static JFrame esFrame;
+    private static JFrame csFrame;
     private static LifeSupport lsPane = new LifeSupport();
     private static LifeSupportAtmo lsAtPane = new LifeSupportAtmo();
     private static AttNav anPane = new AttNav();
@@ -17,17 +25,16 @@ public class AethonDriver
 
     public static void main(String[] args) throws Exception
     {
-        ControlService controller = new ControlService();
         UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         UIManager.getLookAndFeelDefaults().put("Panel.background", Color.BLACK);
         final SplashScreen splash = SplashScreen.getSplashScreen();
         Graphics2D g = splash.createGraphics();
 
-        JFrame lsFrame = new JFrame();
-        JFrame lsFrameAtmo = new JFrame();
-        JFrame attFrame = new JFrame();
-        JFrame esFrame = new JFrame();
-        JFrame csFrame = new JFrame();
+        lsFrame = new JFrame();
+        lsFrameAtmo = new JFrame();
+        attFrame = new JFrame();
+        esFrame = new JFrame();
+        csFrame = new JFrame();
 
         lsFrame.setContentPane(lsPane);
         lsFrameAtmo.setContentPane(lsAtPane);
@@ -51,5 +58,13 @@ public class AethonDriver
             frameArray[a].setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frameArray[a].setVisible(true);
         }
+
+        final ScheduledExecutorService advancer = Executors.newScheduledThreadPool(4);
+        advancer.scheduleWithFixedDelay(AethonDriver::updateVars, 0, 125, TimeUnit.MILLISECONDS);
+    }
+
+    private static void updateVars()
+    {
+
     }
 }
