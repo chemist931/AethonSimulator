@@ -1,7 +1,6 @@
 package gsaul.AethonSimulator;
 
-import javax.swing.JFrame;
-import javax.swing.UIManager;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -51,12 +50,12 @@ public class AethonDriver
             frameArray[a].setVisible(true);
         }*/
 
-        for(int a=0; a<frameArray.length; a++)
+        for(JFrame aFrameArray : frameArray)
         {
-            frameArray[a].setSize(1280, 1024);
-            frameArray[a].setUndecorated(true);
-            frameArray[a].setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frameArray[a].setVisible(true);
+            aFrameArray.setSize(1280, 1024);
+            aFrameArray.setUndecorated(true);
+            aFrameArray.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            aFrameArray.setVisible(true);
         }
 
         final ScheduledExecutorService advancer = Executors.newScheduledThreadPool(4);
