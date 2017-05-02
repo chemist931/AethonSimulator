@@ -8,6 +8,7 @@ import java.awt.SplashScreen;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
 
 public class AethonDriver
 {
@@ -21,13 +22,15 @@ public class AethonDriver
     private static AttNav anPane = new AttNav();
     private static ElectricalSystems esPane = new ElectricalSystems();
     private static CargoStates csPane = new CargoStates();
-
+    private static ArrayList<DataExecutor> executorList;
     public static void main(String[] args) throws Exception
     {
         UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
         UIManager.getLookAndFeelDefaults().put("Panel.background", Color.BLACK);
         final SplashScreen splash = SplashScreen.getSplashScreen();
         Graphics2D g = splash.createGraphics();
+
+        executorList = new ArrayList<DataExecutor>(50);
 
         lsFrame = new JFrame();
         lsFrameAtmo = new JFrame();
@@ -64,6 +67,7 @@ public class AethonDriver
 
     private static void updateVars()
     {
-
+        for(DataExecutor de : executorList)
+            de.updateVars(executorList);
     }
 }
