@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.Map;
 import java.lang.Class;
 import java.lang.reflect.Constructor;
+
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
@@ -33,13 +34,14 @@ public class AethonDriver
 		JsonReader jsonReader = new JsonReader(new FileReader("vars/masterKeys/prod.json"));
 		String[] executorStringList = new Gson().fromJson(jsonReader, String[].class);
 		executorMap = new HashMap<>();
-		for(String name: executorStringList)
+		for(String name : executorStringList)
 		{
 			Class aClass = Class.forName("gsaul.AethonSimulator.executors." + name);
 			Constructor ctor = aClass.getConstructor();
 			DataExecutor de = (DataExecutor) ctor.newInstance();
 			executorMap.put(name, de);
 		}
+		executorStringList = null; //garbage collection
 		JFrame lsFrame = new JFrame();
 		JFrame lsFrameAtmo = new JFrame();
 		JFrame attFrame = new JFrame();
@@ -80,7 +82,7 @@ public class AethonDriver
 		anPane.updateVars(executorMap);
 		esPane.updateVars(executorMap);
 		csPane.updateVars(executorMap);
-		//for(DataExecutor de : executorMap.keySet())
-		//	de.updateVars(executorMap);
+		for(DataExecutor de : executorMap.values())
+			de.updateVars(executorMap);
 	}
 }

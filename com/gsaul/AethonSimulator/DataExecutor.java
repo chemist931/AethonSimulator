@@ -1,10 +1,10 @@
 package gsaul.AethonSimulator;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public interface DataExecutor
 {
-	void updateVars(HashMap<String, DataExecutor> map);
+	void updateVars(Map<String, DataExecutor> map);
 
 	Object getVal();
 

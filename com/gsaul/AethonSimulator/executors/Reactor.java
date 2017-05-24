@@ -1,6 +1,7 @@
 package gsaul.AethonSimulator.executors;
 
-import java.util.HashMap;
+import java.util.Map;
+
 import gsaul.AethonSimulator.DataExecutor;
 
 public class Reactor implements DataExecutor
@@ -16,7 +17,7 @@ public class Reactor implements DataExecutor
 
 	}
 
-	public void updateVars(HashMap<String, DataExecutor> map)
+	public void updateVars(Map<String, DataExecutor> map)
 	{
 
 	}
