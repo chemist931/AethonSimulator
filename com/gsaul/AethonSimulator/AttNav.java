@@ -31,6 +31,7 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -42,5 +43,10 @@ class AttNav extends JPanel
     {
         setLayout(new GridLayout(10, 2));
         setBackground(Color.DARK_GRAY.darker());
+    }
+
+    void updateVars(Map<String, DataExecutor> executorMap)
+    {
+
     }
 }

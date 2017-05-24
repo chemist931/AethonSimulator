@@ -1,0 +1,86 @@
+[
+  {
+    "valName": "capTemp",
+    "bval": "null",
+    "dval": "23",
+    "executeString": "",
+    "description": "Capsule Temperature in degrees Celsius, uses previous temperature, HVAC state, and HVAC temperature"
+  },
+  {
+    "valName": "capPres",
+    "bval": "null",
+    "dval": "14.35",
+    "executeString": "",
+    "description": "Capsule pressure in PSI, uses previous pressure, O2 Regulator State"
+  },
+  {
+    "valName": "capO2PartPres",
+    "bval": "null",
+    "dval": "3.45",
+    "executeString": "",
+    "description": "Capsule Partial Pressure of O2 in PSI, uses previous pressure and O2 regulator state (-breathing constant)"
+  },
+  {
+    "valName": "capN2PartPres",
+    "bval": "null",
+    "dval": "10.90",
+    "executeString": "",
+    "description": "Capsule Partial Pressure of N2 in PSI, uses previous pressure and N2 regulator state"
+  },
+  {
+    "valName": "capCO2PartPres",
+    "bval": "null",
+    "dval": "10.90",
+    "executeString": "",
+    "description": "Capsule Partial Pressure of CO2 in PSI, uses previous pressure and CO2 regulator state(+breathing constant)"
+  },
+  {
+    "valName": "reacLevel",
+    "bval": "null",
+    "dval": "100",
+    "executeString": "",
+    "description": "Reactor Level in Percent"
+  },
+  {
+    "valName": "reacElecOutput",
+    "bval": "null",
+    "dval": "98765",
+    "executeString": "",
+    "description": "Reactor electrical output in ?, based off of reactorLevel"
+  },
+  {
+    "valName": "reacHeatOutput",
+    "bval": "null",
+    "dval": "10.90",
+    "executeString": "",
+    "description": "Reactor heat output in ?, based off of reactorLevel"
+  },
+  {
+    "valName": "reacLoopTemp",
+    "bval": "null",
+    "dval": "10.90",
+    "executeString": "",
+    "description": "Reactor cooling loop temperature in C, based off of reacHeatOutput, reacLoopPres"
+  },
+  {
+    "valName": "reacLoopPres",
+    "bval": "null",
+    "dval": "10.90",
+    "executeString": "",
+    "description": "Reactor cooling loop pressure in PSI, based off of reacHeatOutput, reacLoopTemp"
+  },
+  {
+    "valName": "reacAvail",
+    "bval": "true",
+    "dval": "0.00",
+    "executeString": "",
+    "description": "Reactor presence"
+  },
+  {
+    "valName": "reacLoopTemp",
+    "bval": "null",
+    "dval": "10.90",
+    "executeString": "",
+    "description": "Reactor cooling loop temperature in C, based off of reacHeatOutput, reacILoopPres"
+  }
+]
