@@ -36,8 +36,8 @@ public class AethonDriver
 		executorMap = new HashMap<>();
 		for(String name : executorStringList)
 		{
-			Class aClass = Class.forName("gsaul.AethonSimulator.executors." + name);
-			Constructor ctor = aClass.getConstructor();
+			Class<?> aClass = Class.forName("gsaul.AethonSimulator.executors." + name);
+			Constructor<?> ctor = aClass.getConstructor();
 			DataExecutor de = (DataExecutor) ctor.newInstance();
 			executorMap.put(name, de);
 		}
