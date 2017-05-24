@@ -2,7 +2,6 @@ package gsaul.AethonSimulator;
 
 import javax.swing.*;
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.SplashScreen;
 import java.io.FileReader;
 import java.util.HashMap;
@@ -10,9 +9,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.Map;
-
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
+import java.lang.Class;
+import java.lang.reflect.Constructor;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
@@ -24,20 +22,24 @@ public class AethonDriver
 	private static ElectricalSystems esPane = new ElectricalSystems();
 	private static CargoStates csPane = new CargoStates();
 	private static Map<String, DataExecutor> executorMap;
-	private static DataExecutor[] executorList;
 
 	public static void main(String[] args) throws Exception
 	{
 		UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 		UIManager.getLookAndFeelDefaults().put("Panel.background", Color.BLACK);
 		final SplashScreen splash = SplashScreen.getSplashScreen();
-		Graphics2D g = splash.createGraphics();
+		splash.createGraphics();
 
 		JsonReader jsonReader = new JsonReader(new FileReader("vars/masterKeys/prod.json"));
-		executorList = new Gson().fromJson(jsonReader, DataExecutor[].class);
-		executorMap = new HashMap<String, DataExecutor>();
-		for(DataExecutor de : executorList)
-			executorMap.put(de.getName(), de);
+		String[] executorStringList = new Gson().fromJson(jsonReader, String[].class);
+		executorMap = new HashMap<>();
+		for(String name: executorStringList)
+		{
+			Class aClass = Class.forName("gsaul.AethonSimulator.executors." + name);
+			Constructor ctor = aClass.getConstructor();
+			DataExecutor de = (DataExecutor) ctor.newInstance();
+			executorMap.put(name, de);
+		}
 		JFrame lsFrame = new JFrame();
 		JFrame lsFrameAtmo = new JFrame();
 		JFrame attFrame = new JFrame();
@@ -78,7 +80,7 @@ public class AethonDriver
 		anPane.updateVars(executorMap);
 		esPane.updateVars(executorMap);
 		csPane.updateVars(executorMap);
-		for(DataExecutor de : executorList)
-			de.updateVars(executorMap);
+		//for(DataExecutor de : executorMap.keySet())
+		//	de.updateVars(executorMap);
 	}
 }

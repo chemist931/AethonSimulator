@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
-public class LifeSupportAtmo extends JPanel
+class LifeSupportAtmo extends JPanel
 {
     LifeSupportAtmo()
     {

@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.util.Map;
 
-public class LifeSupport extends JPanel
+class LifeSupport extends JPanel
 {
     LifeSupport()
     {
