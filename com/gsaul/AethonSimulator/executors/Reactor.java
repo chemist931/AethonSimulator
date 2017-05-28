@@ -1,16 +1,19 @@
 package gsaul.AethonSimulator.executors;
 
 import java.util.Map;
-
 import gsaul.AethonSimulator.DataExecutor;
 
 public class Reactor implements DataExecutor
 {
 	private String valName;
-	private Boolean bval;
-	private Double dval;
-	private String executeString;
-	private String description;
+	private int level;
+	private double elecOut;
+	private double heatOut;
+	private double coolingTemp;
+	private double coolingPres;
+	private boolean ejected;
+	private boolean breached;
+	private boolean coolingBreached;
 
 	public Reactor()
 	{
@@ -19,19 +22,55 @@ public class Reactor implements DataExecutor
 
 	public void updateVars(Map<String, DataExecutor> map)
 	{
+		if(ejected)
+			return;
 
 	}
 
-	public Object getVal()
+	public int getLevel()
 	{
-		if(bval!=null)
-			return bval;
-		else
-			return dval;
+		return level;
 	}
 
-	public String getName()
+	public double getElecOut()
+	{
+		return elecOut;
+	}
+
+	public double getHeatOut()
+	{
+		return heatOut;
+	}
+
+	public double getCoolingTemp()
+	{
+		return coolingTemp;
+	}
+
+	public double getCoolingPres()
+	{
+		return coolingPres;
+	}
+
+	public boolean isEjected()
+	{
+		return ejected;
+	}
+
+	public boolean isBreached()
+	{
+		return breached;
+	}
+
+	public boolean isCoolingBreached()
+	{
+		return coolingBreached;
+	}
+
+	public String getValName()
 	{
 		return valName;
 	}
+
+
 }

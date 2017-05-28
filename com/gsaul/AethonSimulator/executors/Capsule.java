@@ -7,10 +7,42 @@ import java.util.Map;
 public class Capsule implements DataExecutor
 {
 	private String valName;
-	private Boolean bval;
-	private Double dval;
-	private String executeString;
-	private String description;
+	private double temp;
+	private double pres;
+	private double o2PartPres;
+	private double n2PartPres;
+	private double co2PartPres;
+	private int gCounter;
+
+	public double getTemp()
+	{
+		return temp;
+	}
+
+	public double getPres()
+	{
+		return pres;
+	}
+
+	public double getO2PartPres()
+	{
+		return o2PartPres;
+	}
+
+	public double getN2PartPres()
+	{
+		return n2PartPres;
+	}
+
+	public double getCo2PartPres()
+	{
+		return co2PartPres;
+	}
+
+	public int getgCounter()
+	{
+		return gCounter;
+	}
 
 	public Capsule()
 	{
@@ -22,16 +54,8 @@ public class Capsule implements DataExecutor
 
 	}
 
-	public Object getVal()
+	public String getValName()
 	{
-		if(bval!=null)
-			return bval;
-		else
-			return dval;
-	}
-
-	public String getName()
-	{
-		return valName;
+		return null;
 	}
 }

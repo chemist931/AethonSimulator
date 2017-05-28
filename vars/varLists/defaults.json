@@ -1,0 +1,30 @@
+[
+  {
+    "valName": "Reactor",
+    "level": "100"
+  },
+  {
+    "valName": "Capsule",
+    "temp": "25"
+  },
+  {
+    "valName": "LSRegulators",
+    "n2RegState": "true"
+  },
+  {
+    "valName": "MOF",
+    "state": "true"
+  },
+  {
+    "valName": "HVAC",
+    "state": "true"
+  },
+  {
+    "valName": "WaterManagement",
+    "wasteTankLevel": "100"
+  },
+  {
+    "valName": "ServiceModule",
+    "docked": "true"
+  }
+]

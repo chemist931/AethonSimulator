@@ -7,10 +7,30 @@ import java.util.Map;
 public class HVAC implements DataExecutor
 {
 	private String valName;
-	private Boolean bval;
-	private Double dval;
-	private String executeString;
-	private String description;
+	private double state;
+	private double temperature;
+	private double coolingTemp;
+	private double coolingPres;
+
+	public double getState()
+	{
+		return state;
+	}
+
+	public double getTemperature()
+	{
+		return temperature;
+	}
+
+	public double getCoolingTemp()
+	{
+		return coolingTemp;
+	}
+
+	public double getCoolingPres()
+	{
+		return coolingPres;
+	}
 
 	public HVAC()
 	{
@@ -22,15 +42,7 @@ public class HVAC implements DataExecutor
 
 	}
 
-	public Object getVal()
-	{
-		if(bval!=null)
-			return bval;
-		else
-			return dval;
-	}
-
-	public String getName()
+	public String getValName()
 	{
 		return valName;
 	}
