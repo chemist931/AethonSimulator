@@ -24,7 +24,6 @@ public class Reactor implements DataExecutor
 	{
 		if(ejected)
 			return;
-
 	}
 
 	public int getLevel()

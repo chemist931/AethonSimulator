@@ -17,7 +17,6 @@ import java.util.Map;
 
 import gsaul.AethonSimulator.executors.*;
 
-
 public class AethonDriver
 {
 	private static LifeSupport lsPane;
@@ -32,8 +31,13 @@ public class AethonDriver
 		final SplashScreen splash = SplashScreen.getSplashScreen();
 		splash.createGraphics();
 
+		executorMap = new HashMap<String, DataExecutor>();
 		String uInput = JOptionPane.showInputDialog("Save file name? (\"defaults\" for default parameters))");
-		executorMap = objectBuilder(uInput);
+		DataExecutor[] executorArray = objectBuilder(uInput);
+		for(DataExecutor de : executorArray)
+		{
+			executorMap.put(de.getValName(), de);
+		}
 
 		UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 		UIManager.getLookAndFeelDefaults().put("Panel.background", Color.BLACK);
@@ -88,31 +92,20 @@ public class AethonDriver
 			de.updateVars(executorMap);
 	}
 
-	private static HashMap<String, DataExecutor> objectBuilder(String uInput) //Thank you StackOverflow user "perception"
+	private static DataExecutor[] objectBuilder(String uInput) throws Exception//Thank you StackOverflow user "perception"
 	{
-		try
-		{
-			TypeToken<HashMap<String, DataExecutor>> hashMapTypeToken = new TypeToken<HashMap<String, DataExecutor>>()
-			{
-			};
-			RuntimeTypeAdapterFactory<DataExecutor> typeFactory = RuntimeTypeAdapterFactory
-					.of(DataExecutor.class, "valName")
-					.registerSubtype(Capsule.class)
-					.registerSubtype(HVAC.class)
-					.registerSubtype(LSRegulators.class)
-					.registerSubtype(MOF.class)
-					.registerSubtype(Reactor.class)
-					.registerSubtype(ServiceModule.class)
-					.registerSubtype(WaterManagement.class);
+		RuntimeTypeAdapterFactory<DataExecutor> typeFactory = RuntimeTypeAdapterFactory
+				.of(DataExecutor.class, "type")
+				.registerSubtype(Capsule.class, "Capsule")
+				.registerSubtype(HVAC.class, "HVAC")
+				.registerSubtype(LSRegulators.class, "LSRegulators")
+				.registerSubtype(MOF.class, "MOF")
+				.registerSubtype(Reactor.class, "Reactor")
+				.registerSubtype(ServiceModule.class, "ServiceModule")
+				.registerSubtype(WaterManagement.class, "WaterManagement");
 
-			Gson gson = new GsonBuilder().registerTypeAdapterFactory(typeFactory).create();
-			JsonReader objectReader = new JsonReader(new FileReader("vars/varLists/" + uInput + ".json"));
-			return gson.fromJson(objectReader, hashMapTypeToken.getClass());
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			return null;
-		}
+		Gson gson = new GsonBuilder().registerTypeAdapterFactory(typeFactory).create();
+		JsonReader objectReader = new JsonReader(new FileReader("vars/varLists/" + uInput + ".json"));
+		return gson.fromJson(objectReader, DataExecutor[].class);
 	}
 }

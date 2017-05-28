@@ -1,30 +1,19 @@
 [
   {
+    "type": "Reactor",
     "valName": "Reactor",
-    "level": "100"
+    "level": "100",
+    "heatOut": "555",
+    "elecOut": "555",
+    "coolingTemp": "555",
+    "coolingPres": "555",
+    "ejected": "false",
+    "breached": "false",
+    "coolingBreached": "false"
   },
   {
-    "valName": "Capsule",
-    "temp": "25"
-  },
-  {
-    "valName": "LSRegulators",
-    "n2RegState": "true"
-  },
-  {
+    "type": "MOF",
     "valName": "MOF",
     "state": "true"
-  },
-  {
-    "valName": "HVAC",
-    "state": "true"
-  },
-  {
-    "valName": "WaterManagement",
-    "wasteTankLevel": "100"
-  },
-  {
-    "valName": "ServiceModule",
-    "docked": "true"
   }
 ]
