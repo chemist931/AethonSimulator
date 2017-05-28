@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package gsaul.AethonSimulator;
+package gsaul.AethonSimulator; //Don't know if this is legal...? For now ignore all the licensing stuff
 
 import java.io.IOException;
 import java.util.LinkedHashMap;

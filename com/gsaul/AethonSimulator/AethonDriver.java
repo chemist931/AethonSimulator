@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.reflect.TypeToken;
+
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.SplashScreen;
@@ -55,7 +56,7 @@ public class AethonDriver
 		esFrame.setContentPane(esPane);
 		csFrame.setContentPane(csPane);
 
-		JFrame[] frameArray= new JFrame[] {lsFrame, lsFrameAtmo, attFrame, esFrame, csFrame};
+		JFrame[] frameArray = new JFrame[]{lsFrame, lsFrameAtmo, attFrame, esFrame, csFrame};
 		/*for(int a=0; a< frameArray.length; a++)
 		{y
             frameArray[a].setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -87,7 +88,7 @@ public class AethonDriver
 			de.updateVars(executorMap);
 	}
 
-	private static HashMap objectBuilder(String uInput) //Thank you StackOverflow user "perception"
+	private static HashMap<String, DataExecutor> objectBuilder(String uInput) //Thank you StackOverflow user "perception"
 	{
 		try
 		{
@@ -108,7 +109,7 @@ public class AethonDriver
 			JsonReader objectReader = new JsonReader(new FileReader("vars/varLists/" + uInput + ".json"));
 			return gson.fromJson(objectReader, hashMapTypeToken.getClass());
 		}
-		catch (Exception e)
+		catch(Exception e)
 		{
 			e.printStackTrace();
 			return null;
