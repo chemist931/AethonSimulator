@@ -9,8 +9,8 @@ public class Reactor implements DataExecutor
 	private int level; //0-100
 	private double elecOut; //in kW
 	private double temp; //in C
-	private double coolingTemp; //in C
-	private double coolingPres; //in PSI
+	private double coolantTemp; //in C
+	private double coolantPres; //in PSI
 	private double coolantLevel;
 	private boolean ejected;
 	private boolean breached;
@@ -65,14 +65,14 @@ public class Reactor implements DataExecutor
 		return temp;
 	}
 
-	public double getCoolingTemp()
+	public double getCoolantTemp()
 	{
-		return coolingTemp;
+		return coolantTemp;
 	}
 
-	public double getCoolingPres()
+	public double getCoolantPres()
 	{
-		return coolingPres;
+		return coolantPres;
 	}
 
 	public double getCoolantLevel()
@@ -100,8 +100,8 @@ public class Reactor implements DataExecutor
 		ejected = true;
 		elecOut = 0;
 		temp = 0;
-		coolingTemp = 0;
-		coolingPres = 0;
+		coolantTemp = 0;
+		coolantPres = 0;
 		level = 0;
 	}
 
@@ -114,7 +114,6 @@ public class Reactor implements DataExecutor
 	public void setCoolantLevel(double a)
 	{
 		coolantLevel = a;
-
 	}
 
 	public void setCoolingBreached()

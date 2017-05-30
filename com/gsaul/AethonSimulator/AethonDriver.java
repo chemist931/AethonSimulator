@@ -105,7 +105,8 @@ public class AethonDriver
 				.registerSubtype(MOF.class, "MOF")
 				.registerSubtype(Reactor.class, "Reactor")
 				.registerSubtype(ServiceModule.class, "ServiceModule")
-				.registerSubtype(WaterManagement.class, "WaterManagement");
+				.registerSubtype(WaterManagement.class, "WaterManagement")
+				.registerSubtype(OrbitalMechanics.class, "OrbitalMechanics");
 		Gson gson = new GsonBuilder().registerTypeAdapterFactory(typeFactory).create();
 		JsonReader objectReader = new JsonReader(new FileReader("vars/varLists/" + uInput + ".json"));
 		return gson.fromJson(objectReader, DataExecutor[].class);
