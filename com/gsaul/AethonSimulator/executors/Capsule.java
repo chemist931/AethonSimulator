@@ -56,6 +56,6 @@ public class Capsule implements DataExecutor
 
 	public String getValName()
 	{
-		return null;
+		return valName;
 	}
 }

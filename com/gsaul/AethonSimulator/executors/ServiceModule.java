@@ -8,7 +8,7 @@ public class ServiceModule implements DataExecutor
 {
 	private String valName;
 	private boolean docked;
-	private double[] h2TankLevel;
+	private double h2TankLevel;
 	private double[] n2TankPres;
 	private double[] o2TankPres;
 
@@ -17,7 +17,7 @@ public class ServiceModule implements DataExecutor
 		return docked;
 	}
 
-	public double[] getH2TankLevel()
+	public double getH2TankLevel()
 	{
 		return h2TankLevel;
 	}

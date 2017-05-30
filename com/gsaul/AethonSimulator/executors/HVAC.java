@@ -7,19 +7,19 @@ import java.util.Map;
 public class HVAC implements DataExecutor
 {
 	private String valName;
-	private double state;
-	private double temperature;
+	private boolean state;
+	private double aim;
 	private double coolingTemp;
 	private double coolingPres;
 
-	public double getState()
+	public boolean getState()
 	{
 		return state;
 	}
 
-	public double getTemperature()
+	public double getAim()
 	{
-		return temperature;
+		return aim;
 	}
 
 	public double getCoolingTemp()

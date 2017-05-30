@@ -6,24 +6,48 @@ import gsaul.AethonSimulator.DataExecutor;
 public class Reactor implements DataExecutor
 {
 	private String valName;
-	private int level;
-	private double elecOut;
-	private double heatOut;
-	private double coolingTemp;
-	private double coolingPres;
+	private int level; //0-100
+	private double elecOut; //in kW
+	private double temp; //in C
+	private double coolingTemp; //in C
+	private double coolingPres; //in PSI
+	private double coolantLevel;
 	private boolean ejected;
 	private boolean breached;
 	private boolean coolingBreached;
+	private boolean autoEject;
 
 	public Reactor()
 	{
-
 	}
 
 	public void updateVars(Map<String, DataExecutor> map)
 	{
 		if(ejected)
 			return;
+		if(temp > 2000)
+		{
+			setLevel(level / 2);
+			if(level < 0)
+				setLevel(0);
+		}
+		if(temp > 2500)
+		{
+			if(autoEject)
+			{
+				setEjected();
+				return;
+			}
+		}
+		if(coolingBreached)
+		{
+			setCoolantLevel(coolantLevel - 15);
+		}
+		if(breached)
+		{
+			temp+=(2.5*level)+50;
+		}
+		temp+=5;
 	}
 
 	public int getLevel()
@@ -36,9 +60,9 @@ public class Reactor implements DataExecutor
 		return elecOut;
 	}
 
-	public double getHeatOut()
+	public double getTemp()
 	{
-		return heatOut;
+		return temp;
 	}
 
 	public double getCoolingTemp()
@@ -49,6 +73,11 @@ public class Reactor implements DataExecutor
 	public double getCoolingPres()
 	{
 		return coolingPres;
+	}
+
+	public double getCoolantLevel()
+	{
+		return coolantLevel;
 	}
 
 	public boolean isEjected()
@@ -66,6 +95,32 @@ public class Reactor implements DataExecutor
 		return coolingBreached;
 	}
 
+	public void setEjected()
+	{
+		ejected = true;
+		elecOut = 0;
+		temp = 0;
+		coolingTemp = 0;
+		coolingPres = 0;
+		level = 0;
+	}
+
+	public void setLevel(int a)
+	{
+		level = a;
+		elecOut = a;
+	}
+
+	public void setCoolantLevel(double a)
+	{
+		coolantLevel = a;
+
+	}
+
+	public void setCoolingBreached()
+	{
+		coolingBreached = true;
+	}
 	public String getValName()
 	{
 		return valName;

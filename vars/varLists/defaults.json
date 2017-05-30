@@ -3,17 +3,65 @@
     "type": "Reactor",
     "valName": "Reactor",
     "level": "100",
-    "heatOut": "555",
+    "temp": "555",
     "elecOut": "555",
     "coolingTemp": "555",
     "coolingPres": "555",
     "ejected": "false",
     "breached": "false",
-    "coolingBreached": "false"
+    "coolingBreached": "false",
+    "autoEject": "true"
   },
   {
     "type": "MOF",
     "valName": "MOF",
-    "state": "true"
+    "state": "true",
+    "temp": "555",
+    "saturation": "0"
+  },
+  {
+    "type": "Capsule",
+    "valName": "Capsule",
+    "temp": "23.5",
+    "pres": "555",
+    "o2PartPres": "555",
+    "n2PartPres": "555",
+    "co2PartPres": "555",
+    "gCounter": "555"
+  },
+  {
+    "type": "HVAC",
+    "valName": "HVAC",
+    "state": "false",
+    "aim": "23.5",
+    "coolingTemp": "555",
+    "coolingPres": "555"
+  },
+  {
+    "type": "WaterManagement",
+    "valName": "WaterManagement",
+    "wasteTankLevel": "0",
+    "pureTankLevel": "100",
+    "urineTankLevel": "0",
+    "ROFilterState": "false",
+    "urineBoilState": "false",
+    "urineBoilTemp": "555",
+    "dumperState": "false"
+  },
+  {
+    "type": "LSRegulators",
+    "valName": "LSRegulators",
+    "n2TanksPres": [555, 555, 555, 555],
+    "o2TanksPres": [555, 555, 555, 555],
+    "n2RegState": "0",
+    "o2RegState": "0"
+  },
+  {
+    "type": "ServiceModule",
+    "valName": "ServiceModule",
+    "docked": "true",
+    "h2TankLevel": "555",
+    "o2TankPres": [555, 555],
+    "n2TankPres": [555, 555]
   }
 ]

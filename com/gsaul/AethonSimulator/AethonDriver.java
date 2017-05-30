@@ -3,8 +3,6 @@ package gsaul.AethonSimulator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import com.google.gson.reflect.TypeToken;
-
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.SplashScreen;
@@ -14,7 +12,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.Map;
-
 import gsaul.AethonSimulator.executors.*;
 
 public class AethonDriver
@@ -24,6 +21,8 @@ public class AethonDriver
 	private static AttNav anPane;
 	private static ElectricalSystems esPane;
 	private static CargoStates csPane;
+	private static WarningAnnunciator waPane;
+
 	private static Map<String, DataExecutor> executorMap;
 
 	public static void main(String[] args) throws Exception
@@ -32,8 +31,7 @@ public class AethonDriver
 		splash.createGraphics();
 
 		executorMap = new HashMap<String, DataExecutor>();
-		String uInput = JOptionPane.showInputDialog("Save file name? (\"defaults\" for default parameters))");
-		DataExecutor[] executorArray = objectBuilder(uInput);
+		DataExecutor[] executorArray = objectBuilder();
 		for(DataExecutor de : executorArray)
 		{
 			executorMap.put(de.getValName(), de);
@@ -47,20 +45,23 @@ public class AethonDriver
 		anPane = new AttNav();
 		esPane = new ElectricalSystems();
 		csPane = new CargoStates();
+		waPane = new WarningAnnunciator();
 
 		JFrame lsFrame = new JFrame();
 		JFrame lsFrameAtmo = new JFrame();
 		JFrame attFrame = new JFrame();
 		JFrame esFrame = new JFrame();
 		JFrame csFrame = new JFrame();
+		JFrame waFrame = new JFrame();
 
 		lsFrame.setContentPane(lsPane);
 		lsFrameAtmo.setContentPane(lsAtPane);
 		attFrame.setContentPane(anPane);
 		esFrame.setContentPane(esPane);
 		csFrame.setContentPane(csPane);
-
-		JFrame[] frameArray = new JFrame[]{lsFrame, lsFrameAtmo, attFrame, esFrame, csFrame};
+		waFrame.setContentPane(waPane);
+		//JFrame[] frameArray = new JFrame[]{lsFrame, lsFrameAtmo, attFrame, esFrame, csFrame, waFrame};
+		JFrame[] frameArray = new JFrame[]{esFrame};
 		/*for(int a=0; a< frameArray.length; a++)
 		{y
             frameArray[a].setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -77,8 +78,8 @@ public class AethonDriver
 			aFrameArray.setVisible(true);
 		}
 
-		final ScheduledExecutorService advancer = Executors.newScheduledThreadPool(4);
-		advancer.scheduleWithFixedDelay(AethonDriver:: updateVars, 0, 125, TimeUnit.MILLISECONDS);
+		final ScheduledExecutorService advancer = Executors.newSingleThreadScheduledExecutor();
+		advancer.scheduleWithFixedDelay(AethonDriver:: updateVars, 0, 250, TimeUnit.MILLISECONDS);
 	}
 
 	private static void updateVars()
@@ -88,12 +89,14 @@ public class AethonDriver
 		anPane.updateVars(executorMap);
 		esPane.updateVars(executorMap);
 		csPane.updateVars(executorMap);
+		waPane.updateVars(executorMap);
 		for(DataExecutor de : executorMap.values())
 			de.updateVars(executorMap);
 	}
 
-	private static DataExecutor[] objectBuilder(String uInput) throws Exception//Thank you StackOverflow user "perception"
+	private static DataExecutor[] objectBuilder() throws Exception //Thank you StackOverflow user "perception"
 	{
+		String uInput = JOptionPane.showInputDialog("Save file name? (\"defaults\" for default parameters))");
 		RuntimeTypeAdapterFactory<DataExecutor> typeFactory = RuntimeTypeAdapterFactory
 				.of(DataExecutor.class, "type")
 				.registerSubtype(Capsule.class, "Capsule")
@@ -103,7 +106,6 @@ public class AethonDriver
 				.registerSubtype(Reactor.class, "Reactor")
 				.registerSubtype(ServiceModule.class, "ServiceModule")
 				.registerSubtype(WaterManagement.class, "WaterManagement");
-
 		Gson gson = new GsonBuilder().registerTypeAdapterFactory(typeFactory).create();
 		JsonReader objectReader = new JsonReader(new FileReader("vars/varLists/" + uInput + ".json"));
 		return gson.fromJson(objectReader, DataExecutor[].class);
