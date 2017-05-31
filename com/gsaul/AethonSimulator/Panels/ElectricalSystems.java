@@ -1,13 +1,15 @@
-package gsaul.AethonSimulator;
+package gsaul.AethonSimulator.Panels;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
+
+import gsaul.AethonSimulator.DataExecutor;
 import gsaul.AethonSimulator.executors.*;
-class ElectricalSystems extends JPanel
+public class ElectricalSystems extends JPanel
 {
 	private JLabel testButton;
-    ElectricalSystems()
+    public ElectricalSystems()
     {
         setLayout(new GridLayout(10, 2));
         setBackground(Color.DARK_GRAY.darker());
@@ -17,7 +19,7 @@ class ElectricalSystems extends JPanel
 		add(testButton);
     }
 
-    void updateVars(Map<String, DataExecutor> executorMap)
+    public void updateVars(Map<String, DataExecutor> executorMap)
     {
 		testButton.setText("Test: " + ((Reactor) executorMap.get("Reactor")).getTemp());
     }

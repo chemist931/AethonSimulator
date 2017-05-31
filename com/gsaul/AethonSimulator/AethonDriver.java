@@ -3,16 +3,25 @@ package gsaul.AethonSimulator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
+
+import javax.sound.sampled.AudioInputStream;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.SplashScreen;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.FileReader;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.Map;
+
+import gsaul.AethonSimulator.Panels.*;
 import gsaul.AethonSimulator.executors.*;
+import marytts.LocalMaryInterface;
+import marytts.exceptions.MaryConfigurationException;
+import marytts.exceptions.SynthesisException;
 
 public class AethonDriver
 {
@@ -60,8 +69,8 @@ public class AethonDriver
 		esFrame.setContentPane(esPane);
 		csFrame.setContentPane(csPane);
 		waFrame.setContentPane(waPane);
-		//JFrame[] frameArray = new JFrame[]{lsFrame, lsFrameAtmo, attFrame, esFrame, csFrame, waFrame};
-		JFrame[] frameArray = new JFrame[]{esFrame};
+
+		JFrame[] frameArray = new JFrame[]{lsFrame, lsFrameAtmo, attFrame, esFrame, csFrame, waFrame};
 		/*for(int a=0; a< frameArray.length; a++)
 		{y
             frameArray[a].setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -78,8 +87,34 @@ public class AethonDriver
 			aFrameArray.setVisible(true);
 		}
 
+		waFrame.setAlwaysOnTop(true);
+		waFrame.requestFocus();
 		final ScheduledExecutorService advancer = Executors.newSingleThreadScheduledExecutor();
 		advancer.scheduleWithFixedDelay(AethonDriver:: updateVars, 0, 250, TimeUnit.MILLISECONDS);
+
+		waFrame.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e)
+			{
+				keyReleased(e);
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+				keyReleased(e);
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e)
+			{
+				switch(e.getKeyChar())
+				{
+					case 'A':
+				}
+			}
+		});
+		Audio.soundOff("info");
 	}
 
 	private static void updateVars()
@@ -106,7 +141,10 @@ public class AethonDriver
 				.registerSubtype(Reactor.class, "Reactor")
 				.registerSubtype(ServiceModule.class, "ServiceModule")
 				.registerSubtype(WaterManagement.class, "WaterManagement")
-				.registerSubtype(OrbitalMechanics.class, "OrbitalMechanics");
+				.registerSubtype(OrbitalMechanics.class, "OrbitalMechanics")
+				.registerSubtype(Communications.class, "Communications")
+				.registerSubtype(RCS.class, "RCS")							//This whole thing is disgusting but I
+				.registerSubtype(CargoMonitoring.class, "CargoMonitoring"); //have no idea how to make it pretty
 		Gson gson = new GsonBuilder().registerTypeAdapterFactory(typeFactory).create();
 		JsonReader objectReader = new JsonReader(new FileReader("vars/varLists/" + uInput + ".json"));
 		return gson.fromJson(objectReader, DataExecutor[].class);

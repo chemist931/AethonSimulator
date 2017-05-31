@@ -1,5 +1,6 @@
-package gsaul.AethonSimulator;
+package gsaul.AethonSimulator.Panels;
 
+import gsaul.AethonSimulator.DataExecutor;
 import org.hipparchus.geometry.euclidean.threed.RotationOrder;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.hipparchus.util.FastMath;
@@ -35,17 +36,17 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-class AttNav extends JPanel
+public class AttNav extends JPanel
 {
     private double draw;
 
-    AttNav()
+    public AttNav()
     {
         setLayout(new GridLayout(10, 2));
         setBackground(Color.DARK_GRAY.darker());
     }
 
-    void updateVars(Map<String, DataExecutor> executorMap)
+    public void updateVars(Map<String, DataExecutor> executorMap)
     {
 
     }
