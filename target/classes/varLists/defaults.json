@@ -51,8 +51,18 @@
   {
     "type": "LSRegulators",
     "valName": "LSRegulators",
-    "n2TanksPres": [555, 555, 555, 555],
-    "o2TanksPres": [555, 555, 555, 555],
+    "n2TanksPres": [
+      555,
+      555,
+      555,
+      555
+    ],
+    "o2TanksPres": [
+      555,
+      555,
+      555,
+      555
+    ],
     "n2RegState": "0",
     "o2RegState": "0"
   },
@@ -61,7 +71,13 @@
     "valName": "ServiceModule",
     "docked": "true",
     "h2TankLevel": "555",
-    "o2TankPres": [555, 555],
-    "n2TankPres": [555, 555]
+    "o2TankPres": [
+      555,
+      555
+    ],
+    "n2TankPres": [
+      555,
+      555
+    ]
   }
 ]

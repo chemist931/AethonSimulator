@@ -10,7 +10,7 @@ public class WarningCollector
 	{
 		warnings.add(string);
 		String list = string.split(",")[1];
-		switch(list)
+		/*switch(list)
 		{
 			case "URGENT": Audio.soundOff("urgent");
 				break;
@@ -25,7 +25,7 @@ public class WarningCollector
 			case "INFO": Audio.soundOff("info");
 				break;
 			default: System.out.println("Sound not available!");
-		}
+		}*/
 	}
 
 	public static ArrayList<String> getWarnings()

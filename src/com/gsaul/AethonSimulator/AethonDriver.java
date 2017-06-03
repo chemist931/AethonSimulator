@@ -2,14 +2,20 @@ package com.gsaul.AethonSimulator;
 
 import com.gsaul.AethonSimulator.Panels.*;
 import com.gsaul.AethonSimulator.executors.*;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import java.awt.Color;
 import java.awt.SplashScreen;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,7 +27,6 @@ import java.util.concurrent.TimeUnit;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 
 public class AethonDriver
 {
@@ -35,21 +40,26 @@ public class AethonDriver
 	private static PanelBase[] paneArray;
 	private static DataExecutor[] executorArray;
 
-	public static void main(String[] args) throws Exception
+	public static void main(String[] args)
 	{
 		final SplashScreen splash = SplashScreen.getSplashScreen();
 		splash.createGraphics();
 
 		executorMap = new HashMap<>();
 		executorArray = objectBuilder();
-		for(DataExecutor de : executorArray)
-		{
+		for(DataExecutor de : executorArray) //IntelliJ thinks that objectBuilder() has a chance of falling
+		{                                     //into the catch statement and returning null. Lmfao
 			executorMap.put(de.getValName(), de);
 		}
-
-		UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-		UIManager.getLookAndFeelDefaults().put("Panel.background", Color.BLACK);
-
+		try
+		{
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+			UIManager.getLookAndFeelDefaults().put("Panel.background", Color.BLACK);
+		}
+		catch(ClassNotFoundException | IllegalAccessException | UnsupportedLookAndFeelException | InstantiationException e) //Damn this thing is dangerous
+		{
+			e.printStackTrace();
+		}
 		lsPane = new LifeSupport();
 		lsAtPane = new LifeSupportAtmo();
 		anPane = new AttNav();
@@ -64,15 +74,12 @@ public class AethonDriver
 		JFrame csFrame = new JFrame();
 		JFrame waFrame = new JFrame();
 
-		lsFrame.setContentPane(lsPane);
-		lsFrameAtmo.setContentPane(lsAtPane);
-		attFrame.setContentPane(anPane);
-		esFrame.setContentPane(esPane);
-		csFrame.setContentPane(csPane);
-		waFrame.setContentPane(waPane);
-
 		JFrame[] frameArray = new JFrame[]{lsFrame, lsFrameAtmo, attFrame, esFrame, csFrame, waFrame};
 		paneArray = new PanelBase[]{lsPane, lsAtPane, anPane, esPane, csPane, waPane};
+
+		for(int a = 0; a < frameArray.length; a++)
+			frameArray[a].setContentPane((JPanel) paneArray[a]);
+
 		/*for(int a=0; a< frameArray.length; a++)
 		{y
             frameArray[a].setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -92,7 +99,7 @@ public class AethonDriver
 		waFrame.setAlwaysOnTop(true);
 		waFrame.requestFocus();
 		final ScheduledExecutorService advancer = Executors.newSingleThreadScheduledExecutor();
-		advancer.scheduleWithFixedDelay(AethonDriver:: updateVars, 0, 250, TimeUnit.MILLISECONDS);
+		advancer.scheduleWithFixedDelay(AethonDriver:: updateVars, 250, 250, TimeUnit.MILLISECONDS);
 
 		waFrame.addKeyListener(new KeyListener()
 		{
@@ -112,8 +119,17 @@ public class AethonDriver
 				keyDown(e);
 			}
 		});
-		Audio.soundOff("info");
-		System.gc();
+
+		try
+		{
+			Audio.soundOff(AudioSystem.getAudioInputStream(new File("lib/sounds/info.wav")));
+			Audio.soundOff(AudioSystem.getAudioInputStream(new File("lib/sounds/urgent.wav")));
+			Audio.soundOff(AudioSystem.getAudioInputStream(new File("lib/sounds/warning.wav")));
+		}
+		catch(IOException | UnsupportedAudioFileException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private static void updateVars()
@@ -124,35 +140,45 @@ public class AethonDriver
 			de.updateVars(executorMap);
 	}
 
-	private static DataExecutor[] objectBuilder() throws Exception //Thank you StackOverflow user "perception"
+	private static DataExecutor[] objectBuilder() //Thank you StackOverflow user "perception"
 	{
-		String uInput = JOptionPane.showInputDialog("Save file name? (\"defaults\" for default parameters)");
-		if(uInput == null)
-			System.exit(0);
-		RuntimeTypeAdapterFactory<DataExecutor> typeFactory = RuntimeTypeAdapterFactory
-				.of(DataExecutor.class, "type")
-				.registerSubtype(Capsule.class, "Capsule")
-				.registerSubtype(HVAC.class, "HVAC")
-				.registerSubtype(LSRegulators.class, "LSRegulators")
-				.registerSubtype(MOF.class, "MOF")
-				.registerSubtype(Reactor.class, "Reactor")
-				.registerSubtype(ServiceModule.class, "ServiceModule")
-				.registerSubtype(WaterManagement.class, "WaterManagement")
-				.registerSubtype(OrbitalMechanics.class, "OrbitalMechanics")
-				.registerSubtype(Communications.class, "Communications")
-				.registerSubtype(RCS.class, "RCS")
-				.registerSubtype(CargoMonitoring.class, "CargoMonitoring")    //This whole thing is disgusting but I
-				.registerSubtype(IRPointers.class, "IRPointers");            //have no idea how to make it pretty
-		Gson gson = new GsonBuilder().registerTypeAdapterFactory(typeFactory).create();
-		JsonReader objectReader = new JsonReader(new FileReader("vars/varLists/" + uInput + ".json"));
-		return gson.fromJson(objectReader, DataExecutor[].class);
+		try
+		{
+			String uInput = JOptionPane.showInputDialog("Save file name?");
+			if(uInput == null)
+				uInput = "defaults";
+			RuntimeTypeAdapterFactory<DataExecutor> typeFactory = RuntimeTypeAdapterFactory
+					.of(DataExecutor.class, "type")
+					.registerSubtype(Capsule.class, "Capsule")
+					.registerSubtype(HVAC.class, "HVAC")
+					.registerSubtype(LSRegulators.class, "LSRegulators")
+					.registerSubtype(MOF.class, "MOF")
+					.registerSubtype(Reactor.class, "Reactor")
+					.registerSubtype(ServiceModule.class, "ServiceModule")
+					.registerSubtype(WaterManagement.class, "WaterManagement")
+					.registerSubtype(OrbitalMechanics.class, "OrbitalMechanics")
+					.registerSubtype(Communications.class, "Communications")
+					.registerSubtype(RCS.class, "RCS")
+					.registerSubtype(CargoMonitoring.class, "CargoMonitoring")    //This whole thing is disgusting but I
+					.registerSubtype(IRPointers.class, "IRPointers");            //have no idea how to make it pretty
+			Gson gson = new GsonBuilder().registerTypeAdapterFactory(typeFactory).create();
+			JsonReader objectReader = new JsonReader(new FileReader("vars/varLists/" + uInput + ".json"));
+			return gson.fromJson(objectReader, DataExecutor[].class);
+		}
+		catch(FileNotFoundException e)
+		{
+			e.printStackTrace();
+			System.exit(0); //NULL POINTER EXCEPTION INCOMING
+			return new DataExecutor[];
+		}
 	}
 
 	private static void keyDown(KeyEvent e)
 	{
 		switch(e.getKeyChar())
 		{
-			case 'q': exit();
+			case 'q':
+				exit();
 		}
 	}
 
@@ -160,17 +186,17 @@ public class AethonDriver
 	{
 		try
 		{
-			String uInput = JOptionPane.showInputDialog("File to save to? (leave blank to skip)");
-			if(uInput == null)
+			String uInput = JOptionPane.showInputDialog("File to save to?");
+			if(uInput == null || uInput.equals(""))
 				System.exit(0);
 			Gson gson = new Gson();
-			JsonWriter jsonWriter = new JsonWriter(new FileWriter("vars/varLists/" + uInput + ".json"));
-			gson.toJson(executorArray, DataExecutor[].class, jsonWriter);
+			FileWriter fw = new FileWriter("vars/varLists/" + uInput + ".json");
+			fw.write(gson.toJson(executorMap.values().toArray()));
 			System.exit(0);
 		}
 		catch(IOException e)
 		{
-			System.out.println("Is your hard drive missing?");
+			e.printStackTrace();
 		}
 	}
 }

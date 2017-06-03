@@ -49,11 +49,13 @@ public class Capsule implements DataExecutor
 
 	}
 
+	@Override
 	public void updateVars(Map<String, DataExecutor> map)
 	{
 
 	}
 
+	@Override
 	public String getValName()
 	{
 		return valName;
