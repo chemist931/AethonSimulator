@@ -1,4 +1,4 @@
-package com.gsaul.AethonSimulator;
+package com.gsaul.AethonSimulator.StaticHelpers;
 
 import javax.sound.sampled.*;
 import java.util.HashMap;

@@ -1,7 +1,8 @@
 package com.gsaul.AethonSimulator;
 
-import com.gsaul.AethonSimulator.Panels.*;
+import com.gsaul.AethonSimulator.panels.*;
 import com.gsaul.AethonSimulator.executors.*;
+import com.gsaul.AethonSimulator.StaticHelpers.Audio;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
@@ -47,8 +48,8 @@ public class AethonDriver
 
 		executorMap = new HashMap<>();
 		executorArray = objectBuilder();
-		for(DataExecutor de : executorArray) //IntelliJ thinks that objectBuilder() has a chance of falling
-		{                                     //into the catch statement and returning null. Lmfao
+		for(DataExecutor de : executorArray)
+		{
 			executorMap.put(de.getValName(), de);
 		}
 		try
@@ -168,8 +169,8 @@ public class AethonDriver
 		catch(FileNotFoundException e)
 		{
 			e.printStackTrace();
-			System.exit(0); //NULL POINTER EXCEPTION INCOMING
-			return new DataExecutor[];
+			System.exit(0);
+			return new DataExecutor[]{};
 		}
 	}
 

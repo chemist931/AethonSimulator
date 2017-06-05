@@ -1,4 +1,4 @@
-package com.gsaul.AethonSimulator.Subobjects;
+package com.gsaul.AethonSimulator.subobjects;
 
 public class Computer
 {

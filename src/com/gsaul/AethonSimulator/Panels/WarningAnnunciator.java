@@ -1,9 +1,8 @@
-package com.gsaul.AethonSimulator.Panels;
+package com.gsaul.AethonSimulator.panels;
 
 import com.gsaul.AethonSimulator.DataExecutor;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Map;
 
 public class WarningAnnunciator extends JPanel implements PanelBase

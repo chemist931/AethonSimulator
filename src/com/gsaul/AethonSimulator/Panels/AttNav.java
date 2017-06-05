@@ -1,4 +1,4 @@
-package com.gsaul.AethonSimulator.Panels;
+package com.gsaul.AethonSimulator.panels;
 
 import com.gsaul.AethonSimulator.DataExecutor;
 

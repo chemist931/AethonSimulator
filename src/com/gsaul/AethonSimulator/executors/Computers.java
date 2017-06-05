@@ -3,7 +3,7 @@ package com.gsaul.AethonSimulator.executors;
 import java.util.Map;
 
 import com.gsaul.AethonSimulator.DataExecutor;
-import com.gsaul.AethonSimulator.Subobjects.Computer;
+import com.gsaul.AethonSimulator.subobjects.Computer;
 
 public class Computers implements DataExecutor
 {
