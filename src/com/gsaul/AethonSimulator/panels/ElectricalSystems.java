@@ -14,6 +14,7 @@ public class ElectricalSystems extends JPanel implements PanelBase
     {
         setLayout(new GridLayout(10, 2));
         setBackground(Color.DARK_GRAY.darker());
+        setBackground(Color.RED.darker());
 
 		testButton = new JLabel();
 		testButton.setForeground(Color.WHITE.darker());

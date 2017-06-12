@@ -7,7 +7,7 @@ import com.gsaul.AethonSimulator.DataExecutor;
 public class Reactor implements DataExecutor
 {
 	private String valName;
-	private int level; //0-100
+	private double level; //0-100
 	private double elecOut; //in kW
 	private double temp; //in C
 	private double coolantTemp; //in C
@@ -28,11 +28,11 @@ public class Reactor implements DataExecutor
 			return;
 		if(temp > 2000)
 		{
-			setLevel(level / 2);
+			coolantLevel=100;
 			if(level < 0)
 				setLevel(0);
 		}
-		if(temp > 2500)
+		if(temp > 2800)
 		{
 			if(autoEject)
 			{
@@ -48,10 +48,12 @@ public class Reactor implements DataExecutor
 		{
 			temp+=(2.5*level)+50;
 		}
-		temp+=5;
+		temp += level-((coolantPres*coolantTemp)/((1/coolantLevel)*5000));
+		if(temp<700)
+			coolantLevel=0;
 	}
 
-	public int getLevel()
+	public double getLevel()
 	{
 		return level;
 	}
@@ -106,7 +108,7 @@ public class Reactor implements DataExecutor
 		level = 0;
 	}
 
-	public void setLevel(int a)
+	public void setLevel(double a)
 	{
 		level = a;
 		elecOut = a;

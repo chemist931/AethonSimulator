@@ -1,4 +1,4 @@
-package com.gsaul.AethonSimulator.StaticHelpers;
+package com.gsaul.AethonSimulator.staticHelpers;
 
 public class PanelCounter
 {

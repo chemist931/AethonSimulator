@@ -2,7 +2,7 @@ package com.gsaul.AethonSimulator;
 
 import com.gsaul.AethonSimulator.panels.*;
 import com.gsaul.AethonSimulator.executors.*;
-import com.gsaul.AethonSimulator.StaticHelpers.Audio;
+import com.gsaul.AethonSimulator.staticHelpers.Audio;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
@@ -15,11 +15,12 @@ import java.awt.Color;
 import java.awt.SplashScreen;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -31,15 +32,8 @@ import com.google.gson.stream.JsonReader;
 
 public class AethonDriver
 {
-	private static LifeSupport lsPane;
-	private static LifeSupportAtmo lsAtPane;
-	private static AttNav anPane;
-	private static ElectricalSystems esPane;
-	private static CargoStates csPane;
-	private static WarningAnnunciator waPane;
 	private static Map<String, DataExecutor> executorMap;
 	private static PanelBase[] paneArray;
-	private static DataExecutor[] executorArray;
 
 	public static void main(String[] args)
 	{
@@ -47,7 +41,7 @@ public class AethonDriver
 		splash.createGraphics();
 
 		executorMap = new HashMap<>();
-		executorArray = objectBuilder();
+		DataExecutor[] executorArray = objectBuilder();
 		for(DataExecutor de : executorArray)
 		{
 			executorMap.put(de.getValName(), de);
@@ -61,12 +55,12 @@ public class AethonDriver
 		{
 			e.printStackTrace();
 		}
-		lsPane = new LifeSupport();
-		lsAtPane = new LifeSupportAtmo();
-		anPane = new AttNav();
-		esPane = new ElectricalSystems();
-		csPane = new CargoStates();
-		waPane = new WarningAnnunciator();
+		LifeSupport lsPane = new LifeSupport();
+		LifeSupportAtmo lsAtPane = new LifeSupportAtmo();
+		AttNav anPane = new AttNav();
+		ElectricalSystems esPane = new ElectricalSystems();
+		CargoStates csPane = new CargoStates();
+		WarningAnnunciator waPane = new WarningAnnunciator();
 
 		JFrame lsFrame = new JFrame();
 		JFrame lsFrameAtmo = new JFrame();
@@ -97,22 +91,18 @@ public class AethonDriver
 			aFrameArray.setVisible(true);
 		}
 
-		waFrame.setAlwaysOnTop(true);
-		waFrame.requestFocus();
+		esFrame.setAlwaysOnTop(true);
+		esFrame.requestFocus();
 		final ScheduledExecutorService advancer = Executors.newSingleThreadScheduledExecutor();
-		advancer.scheduleWithFixedDelay(AethonDriver:: updateVars, 250, 250, TimeUnit.MILLISECONDS);
+		advancer.scheduleWithFixedDelay(AethonDriver:: updateVars, 500, 500, TimeUnit.MILLISECONDS);
 
-		waFrame.addKeyListener(new KeyListener()
+		esFrame.addKeyListener(new KeyListener()
 		{
 			@Override
-			public void keyTyped(KeyEvent e)
-			{
-			}
+			public void keyTyped(KeyEvent e) {}
 
 			@Override
-			public void keyPressed(KeyEvent e)
-			{
-			}
+			public void keyPressed(KeyEvent e) {}
 
 			@Override
 			public void keyReleased(KeyEvent e)
@@ -146,10 +136,14 @@ public class AethonDriver
 		try
 		{
 			String uInput = JOptionPane.showInputDialog("Save file name?");
-			if(uInput == null)
+			if(uInput == null || uInput.equals(""))
 				uInput = "defaults";
+			String fileName = "vars/varLists/" + uInput + ".json";
+			BufferedReader br = new BufferedReader(new FileReader(fileName));
+			if (br.readLine() == null)
+				throw new IOException();
 			RuntimeTypeAdapterFactory<DataExecutor> typeFactory = RuntimeTypeAdapterFactory
-					.of(DataExecutor.class, "type")
+					.of(DataExecutor.class, "valName")
 					.registerSubtype(Capsule.class, "Capsule")
 					.registerSubtype(HVAC.class, "HVAC")
 					.registerSubtype(LSRegulators.class, "LSRegulators")
@@ -163,14 +157,14 @@ public class AethonDriver
 					.registerSubtype(CargoMonitoring.class, "CargoMonitoring")    //This whole thing is disgusting but I
 					.registerSubtype(IRPointers.class, "IRPointers");            //have no idea how to make it pretty
 			Gson gson = new GsonBuilder().registerTypeAdapterFactory(typeFactory).create();
-			JsonReader objectReader = new JsonReader(new FileReader("vars/varLists/" + uInput + ".json"));
+			JsonReader objectReader = new JsonReader(new FileReader(fileName));
 			return gson.fromJson(objectReader, DataExecutor[].class);
 		}
-		catch(FileNotFoundException e)
+		catch(IOException e)
 		{
 			e.printStackTrace();
-			System.exit(0);
-			return new DataExecutor[]{};
+			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),"Save file bork", "Error", JOptionPane.ERROR_MESSAGE);
+			return objectBuilder();
 		}
 	}
 
@@ -190,14 +184,25 @@ public class AethonDriver
 			String uInput = JOptionPane.showInputDialog("File to save to?");
 			if(uInput == null || uInput.equals(""))
 				System.exit(0);
-			Gson gson = new Gson();
-			FileWriter fw = new FileWriter("vars/varLists/" + uInput + ".json");
-			fw.write(gson.toJson(executorMap.values().toArray()));
+			if(uInput.equalsIgnoreCase("defaults"))
+			{
+				JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot save over defaults!", "Error", JOptionPane.ERROR_MESSAGE);
+				exit();
+			}
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			File myFile = new File("vars/varLists/" + uInput + ".json");
+			FileOutputStream fOut = new FileOutputStream(myFile);
+			OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+			myOutWriter.append(gson.toJson(executorMap.values().toArray()));
+			myOutWriter.close();
+			fOut.close();
 			System.exit(0);
 		}
 		catch(IOException e)
 		{
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),"Cannot write to file", "Error", JOptionPane.ERROR_MESSAGE);
+			exit();
 		}
 	}
 }
