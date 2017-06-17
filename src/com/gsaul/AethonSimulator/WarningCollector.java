@@ -1,34 +1,18 @@
 package com.gsaul.AethonSimulator;
 
+import com.gsaul.AethonSimulator.subobjects.Warning;
 import java.util.ArrayList;
 
 public class WarningCollector
 {
-	private static ArrayList<String> warnings = new ArrayList<String>();
+	private static ArrayList<Warning> warnings = new ArrayList<Warning>();
 
-	public static void addWarning(String string)
+	public static void addWarning(Warning nWarning)
 	{
-		warnings.add(string);
-		String list = string.split(",")[1];
-		/*switch(list)
-		{
-			case "URGENT": Audio.soundOff("urgent");
-				break;
-			case "WARNING": Audio.soundOff("warning");
-				break;
-			case "DEPRESS": Audio.soundOff("depress");
-				break;
-			case "FIRE": Audio.soundOff("fire");
-				break;
-			case "INFOWARNING": Audio.soundOff("infowarning");
-				break;
-			case "INFO": Audio.soundOff("info");
-				break;
-			default: System.out.println("Sound not available!");
-		}*/
+		warnings.add(nWarning);
 	}
 
-	public static ArrayList<String> getWarnings()
+	public static ArrayList<Warning> getWarnings()
 	{
 		return warnings;
 	}

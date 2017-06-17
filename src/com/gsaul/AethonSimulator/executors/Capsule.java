@@ -4,7 +4,8 @@ import com.gsaul.AethonSimulator.DataExecutor;
 
 import java.util.Map;
 
-public class Capsule implements DataExecutor
+public class
+Capsule implements DataExecutor
 {
 	private String valName;
 	private double temp;

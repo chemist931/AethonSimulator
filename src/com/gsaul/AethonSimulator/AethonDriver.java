@@ -1,7 +1,7 @@
 package com.gsaul.AethonSimulator;
 
-import com.gsaul.AethonSimulator.panels.*;
 import com.gsaul.AethonSimulator.executors.*;
+import com.gsaul.AethonSimulator.panels.*;
 import com.gsaul.AethonSimulator.staticHelpers.Audio;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -12,6 +12,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.SplashScreen;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -34,6 +35,7 @@ public class AethonDriver
 {
 	private static Map<String, DataExecutor> executorMap;
 	private static PanelBase[] paneArray;
+	private static Frame root = JOptionPane.getRootFrame();
 
 	public static void main(String[] args)
 	{
@@ -61,7 +63,7 @@ public class AethonDriver
 		ElectricalSystems esPane = new ElectricalSystems();
 		CargoStates csPane = new CargoStates();
 		WarningAnnunciator waPane = new WarningAnnunciator();
-
+		AttInd attInd = new AttInd();
 		JFrame lsFrame = new JFrame();
 		JFrame lsFrameAtmo = new JFrame();
 		JFrame attFrame = new JFrame();
@@ -69,7 +71,8 @@ public class AethonDriver
 		JFrame csFrame = new JFrame();
 		JFrame waFrame = new JFrame();
 
-		JFrame[] frameArray = new JFrame[]{lsFrame, lsFrameAtmo, attFrame, esFrame, csFrame, waFrame};
+		/*JFrame[] frameArray = new JFrame[]{lsFrame, lsFrameAtmo, attFrame, esFrame, csFrame, waFrame};
+		JFrame[] frameArray = new JFrame[]{attFrame};
 		paneArray = new PanelBase[]{lsPane, lsAtPane, anPane, esPane, csPane, waPane};
 
 		for(int a = 0; a < frameArray.length; a++)
@@ -81,7 +84,7 @@ public class AethonDriver
             frameArray[a].setUndecorated(true);
             frameArray[a].setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frameArray[a].setVisible(true);
-        }*/
+        }
 
 		for(JFrame aFrameArray : frameArray)
 		{
@@ -90,27 +93,33 @@ public class AethonDriver
 			aFrameArray.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			aFrameArray.setVisible(true);
 		}
-
-		esFrame.setAlwaysOnTop(true);
-		esFrame.requestFocus();
+		*/
 		final ScheduledExecutorService advancer = Executors.newSingleThreadScheduledExecutor();
 		advancer.scheduleWithFixedDelay(AethonDriver:: updateVars, 500, 500, TimeUnit.MILLISECONDS);
 
-		esFrame.addKeyListener(new KeyListener()
+		/*esFrame.addKeyListener(new KeyListener()
 		{
 			@Override
-			public void keyTyped(KeyEvent e) {}
+			public void keyTyped(KeyEvent e)
+			{
+			}
 
 			@Override
-			public void keyPressed(KeyEvent e) {}
+			public void keyPressed(KeyEvent e)
+			{
+				keyDown(e);
+			}
 
 			@Override
 			public void keyReleased(KeyEvent e)
 			{
-				keyDown(e);
 			}
-		});
-
+		});*/
+		attFrame.setContentPane(attInd);
+		attFrame.setSize(1280, 1024);
+		attFrame.setUndecorated(true);
+		attFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		attFrame.setVisible(true);
 		try
 		{
 			Audio.soundOff(AudioSystem.getAudioInputStream(new File("lib/sounds/info.wav")));
@@ -140,8 +149,8 @@ public class AethonDriver
 				uInput = "defaults";
 			String fileName = "vars/varLists/" + uInput + ".json";
 			BufferedReader br = new BufferedReader(new FileReader(fileName));
-			if (br.readLine() == null)
-				throw new IOException();
+			if(br.readLine() == null)
+				throw new IOException("Save file empty");
 			RuntimeTypeAdapterFactory<DataExecutor> typeFactory = RuntimeTypeAdapterFactory
 					.of(DataExecutor.class, "valName")
 					.registerSubtype(Capsule.class, "Capsule")
@@ -163,7 +172,7 @@ public class AethonDriver
 		catch(IOException e)
 		{
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),"Save file bork", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(root, "Save file bork", "Error", JOptionPane.ERROR_MESSAGE);
 			return objectBuilder();
 		}
 	}
@@ -186,7 +195,7 @@ public class AethonDriver
 				System.exit(0);
 			if(uInput.equalsIgnoreCase("defaults"))
 			{
-				JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Cannot save over defaults!", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(root, "Cannot save over defaults!", "Error", JOptionPane.ERROR_MESSAGE);
 				exit();
 			}
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -201,7 +210,7 @@ public class AethonDriver
 		catch(IOException e)
 		{
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),"Cannot write to file", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(root, "Cannot write to file", "Error", JOptionPane.ERROR_MESSAGE);
 			exit();
 		}
 	}
