@@ -39,8 +39,8 @@ public class AttInd extends JPanel
 		{
 			e.printStackTrace();
 		}
-		ptBoule = new Point(-25, -410);
-		ptHeading = new Point(-592, 150);
+		ptBoule = new Point(- 25, - 410);
+		ptHeading = new Point(- 592, 150);
 		ptRotation = new Point(150, 150);
 	}
 
@@ -70,47 +70,47 @@ public class AttInd extends JPanel
 
 	private void RotateAndTranslate(Graphics2D g2d, BufferedImage img, Double alphaRot, Double alphaTrs, Point ptImg, double deltaPx, Point ptRot, float scaleFactor)
 	{
-			double beta = 0;
-			double d = 0;
-			float deltaXRot = 0;
-			float deltaYRot = 0;
-			float deltaXTrs = 0;
-			float deltaYTrs = 0;
+		double beta = 0;
+		double d = 0;
+		float deltaXRot = 0;
+		float deltaYRot = 0;
+		float deltaXTrs = 0;
+		float deltaYTrs = 0;
 
-			// Rotation
+		// Rotation
 
-			if (ptImg != ptRot)
+		if(ptImg != ptRot)
+		{
+			// Internals coeffs
+			if(ptRot.getX() != 0)
 			{
-				// Internals coeffs
-				if (ptRot.getX() != 0)
-				{
-					beta = Math.atan((double)ptRot.getY() / (double)ptRot.getX());
-				}
-
-				d = Math.sqrt((ptRot.getX() * ptRot.getX()) + (ptRot.getY() * ptRot.getY()));
-
-				// Computed offset
-				deltaXRot = (float)(d * (Math.cos(alphaRot - beta) - Math.cos(alphaRot) * Math.cos(alphaRot + beta) - Math.sin(alphaRot) * Math.sin(alphaRot + beta)));
-				deltaYRot = (float)(d * (Math.sin(beta - alphaRot) + Math.sin(alphaRot) * Math.cos(alphaRot + beta) - Math.cos(alphaRot) * Math.sin(alphaRot + beta)));
+				beta = Math.atan((double) ptRot.getY() / (double) ptRot.getX());
 			}
 
-			// Translation
+			d = Math.sqrt((ptRot.getX() * ptRot.getX()) + (ptRot.getY() * ptRot.getY()));
 
 			// Computed offset
-			deltaXTrs = (float)(deltaPx * (Math.sin(alphaTrs)));
-			deltaYTrs = (float)(-deltaPx * (-Math.cos(alphaTrs)));
+			deltaXRot = (float) (d * (Math.cos(alphaRot - beta) - Math.cos(alphaRot) * Math.cos(alphaRot + beta) - Math.sin(alphaRot) * Math.sin(alphaRot + beta)));
+			deltaYRot = (float) (d * (Math.sin(beta - alphaRot) + Math.sin(alphaRot) * Math.cos(alphaRot + beta) - Math.cos(alphaRot) * Math.sin(alphaRot + beta)));
+		}
 
-			// Rotate image support
-			//g.RotateTransform((float)(alphaRot * 180 / Math.PI));
-			AffineTransform transform = new AffineTransform();
-			transform.setToTranslation((ptImg.getY() + deltaXRot + deltaXTrs), (ptImg.getY() + deltaYRot + deltaYTrs) * scaleFactor);
-			transform.setToScale(scaleFactor, scaleFactor);
-			transform.setToRotation(alphaRot * 180 / Math.PI);
-			// Dispay image
-			g2d.drawImage(img, (int) ((ptImg.getY() + deltaXRot + deltaXTrs) * scaleFactor), (int) ((ptImg.getY() + deltaYRot + deltaYTrs) * scaleFactor), (int) (img.getWidth() * scaleFactor), (int) (img.getHeight() * scaleFactor), null);
-			g2d.drawImage(img, transform, null);
-			// Put image support as found
-			//g.RotateTransform((float)(-alphaRot * 180 / Math.PI));
+		// Translation
+
+		// Computed offset
+		deltaXTrs = (float) (deltaPx * (Math.sin(alphaTrs)));
+		deltaYTrs = (float) (- deltaPx * (- Math.cos(alphaTrs)));
+
+		// Rotate image support
+		//g.RotateTransform((float)(alphaRot * 180 / Math.PI));
+		AffineTransform transform = new AffineTransform();
+		transform.setToTranslation((ptImg.getY() + deltaXRot + deltaXTrs), (ptImg.getY() + deltaYRot + deltaYTrs) * scaleFactor);
+		transform.setToScale(scaleFactor, scaleFactor);
+		transform.setToRotation(alphaRot * 180 / Math.PI);
+		// Dispay image
+		g2d.drawImage(img, (int) ((ptImg.getY() + deltaXRot + deltaXTrs) * scaleFactor), (int) ((ptImg.getY() + deltaYRot + deltaYTrs) * scaleFactor), (int) (img.getWidth() * scaleFactor), (int) (img.getHeight() * scaleFactor), null);
+		g2d.drawImage(img, transform, null);
+		// Put image support as found
+		//g.RotateTransform((float)(-alphaRot * 180 / Math.PI));
 	}
 
 	private void RotateAndTranslate2(Graphics2D g2d, BufferedImage img, double yawRot, double alphaRot, double alphaTrs, Point ptImg, double deltaPx, Point ptRot, float scaleFactor)
@@ -124,10 +124,10 @@ public class AttInd extends JPanel
 
 		// Rotation
 
-		if (ptImg != ptRot)
+		if(ptImg != ptRot)
 		{
 			// Internals coeffs
-			if (ptRot.getX() != 0)
+			if(ptRot.getX() != 0)
 			{
 				beta = Math.atan(ptRot.getY() / ptRot.getX());
 			}
@@ -135,15 +135,15 @@ public class AttInd extends JPanel
 			d = Math.sqrt((ptRot.getX() * ptRot.getX()) + (ptRot.getY() * ptRot.getY()));
 
 			// Computed offset
-			deltaXRot = (float)(d * (Math.cos(alphaRot - beta) - Math.cos(alphaRot) * Math.cos(alphaRot + beta) - Math.sin(alphaRot) * Math.sin(alphaRot + beta) + yawRot));
-			deltaYRot = (float)(d * (Math.sin(beta - alphaRot) + Math.sin(alphaRot) * Math.cos(alphaRot + beta) - Math.cos(alphaRot) * Math.sin(alphaRot + beta)));
+			deltaXRot = (float) (d * (Math.cos(alphaRot - beta) - Math.cos(alphaRot) * Math.cos(alphaRot + beta) - Math.sin(alphaRot) * Math.sin(alphaRot + beta) + yawRot));
+			deltaYRot = (float) (d * (Math.sin(beta - alphaRot) + Math.sin(alphaRot) * Math.cos(alphaRot + beta) - Math.cos(alphaRot) * Math.sin(alphaRot + beta)));
 		}
 
 		// Translation
 
 		// Computed offset
-		deltaXTrs = (float)(deltaPx * (Math.sin(alphaTrs)));
-		deltaYTrs = (float)(-deltaPx * (-Math.cos(alphaTrs)));
+		deltaXTrs = (float) (deltaPx * (Math.sin(alphaTrs)));
+		deltaYTrs = (float) (- deltaPx * (- Math.cos(alphaTrs)));
 
 		// Rotate image support
 		//g.RotateTransform((float)(alphaRot * 180 / Math.PI));
