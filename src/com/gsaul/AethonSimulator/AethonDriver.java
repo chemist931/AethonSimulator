@@ -71,8 +71,7 @@ public class AethonDriver
 		JFrame csFrame = new JFrame();
 		JFrame waFrame = new JFrame();
 
-		/*JFrame[] frameArray = new JFrame[]{lsFrame, lsFrameAtmo, attFrame, esFrame, csFrame, waFrame};
-		JFrame[] frameArray = new JFrame[]{attFrame};
+		JFrame[] frameArray = new JFrame[]{lsFrame, lsFrameAtmo, attFrame, esFrame, csFrame, waFrame};
 		paneArray = new PanelBase[]{lsPane, lsAtPane, anPane, esPane, csPane, waPane};
 
 		for(int a = 0; a < frameArray.length; a++)
@@ -85,7 +84,7 @@ public class AethonDriver
             frameArray[a].setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frameArray[a].setVisible(true);
         }
-
+		*/
 		for(JFrame aFrameArray : frameArray)
 		{
 			aFrameArray.setSize(1280, 1024);
@@ -93,11 +92,11 @@ public class AethonDriver
 			aFrameArray.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 			aFrameArray.setVisible(true);
 		}
-		*/
-		final ScheduledExecutorService advancer = Executors.newSingleThreadScheduledExecutor();
-		advancer.scheduleWithFixedDelay(AethonDriver:: updateVars, 500, 500, TimeUnit.MILLISECONDS);
 
-		/*esFrame.addKeyListener(new KeyListener()
+		final ScheduledExecutorService advancer = Executors.newSingleThreadScheduledExecutor();
+		advancer.scheduleWithFixedDelay(AethonDriver:: updateVars, 500, 500, TimeUnit.MILLISECONDS); //UPDATE THIS WITH ATTNAV
+
+		esFrame.addKeyListener(new KeyListener()
 		{
 			@Override
 			public void keyTyped(KeyEvent e)
@@ -114,12 +113,8 @@ public class AethonDriver
 			public void keyReleased(KeyEvent e)
 			{
 			}
-		});*/
-		attFrame.setContentPane(attInd);
-		attFrame.setSize(1280, 1024);
-		attFrame.setUndecorated(true);
-		attFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		attFrame.setVisible(true);
+		});
+		/*
 		try
 		{
 			Audio.soundOff(AudioSystem.getAudioInputStream(new File("lib/sounds/info.wav")));
@@ -129,7 +124,7 @@ public class AethonDriver
 		catch(IOException | UnsupportedAudioFileException e)
 		{
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	private static void updateVars()
