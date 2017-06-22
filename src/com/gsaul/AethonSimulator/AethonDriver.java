@@ -1,10 +1,27 @@
 package com.gsaul.AethonSimulator;
 
-import com.gsaul.AethonSimulator.executors.*;
-import com.gsaul.AethonSimulator.panels.*;
-import com.gsaul.AethonSimulator.staticHelpers.Audio;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import com.gsaul.AethonSimulator.executors.Capsule;
+import com.gsaul.AethonSimulator.executors.CargoMonitoring;
+import com.gsaul.AethonSimulator.executors.Communications;
+import com.gsaul.AethonSimulator.executors.EphemerisMode;
+import com.gsaul.AethonSimulator.executors.HVAC;
+import com.gsaul.AethonSimulator.executors.IRPointers;
+import com.gsaul.AethonSimulator.executors.LSRegulators;
+import com.gsaul.AethonSimulator.executors.MOF;
+import com.gsaul.AethonSimulator.executors.MasterMode;
+import com.gsaul.AethonSimulator.executors.OrbitalMechanics;
+import com.gsaul.AethonSimulator.executors.RCS;
+import com.gsaul.AethonSimulator.executors.Reactor;
+import com.gsaul.AethonSimulator.executors.ServiceModule;
+import com.gsaul.AethonSimulator.executors.WaterManagement;
+import com.gsaul.AethonSimulator.panels.AttInd;
+import com.gsaul.AethonSimulator.panels.AttNav;
+import com.gsaul.AethonSimulator.panels.CargoStates;
+import com.gsaul.AethonSimulator.panels.ElectricalSystems;
+import com.gsaul.AethonSimulator.panels.LifeSupport;
+import com.gsaul.AethonSimulator.panels.LifeSupportAtmo;
+import com.gsaul.AethonSimulator.panels.PanelBase;
+import com.gsaul.AethonSimulator.panels.WarningAnnunciator;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,7 +40,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -33,7 +49,7 @@ import com.google.gson.stream.JsonReader;
 
 public class AethonDriver
 {
-	private static Map<String, DataExecutor> executorMap;
+	private static HashMap<String, DataExecutor> executorMap;
 	private static PanelBase[] paneArray;
 	private static Frame root = JOptionPane.getRootFrame();
 
@@ -48,6 +64,7 @@ public class AethonDriver
 		{
 			executorMap.put(de.getValName(), de);
 		}
+		EphemerisMode.startEphemerisMode();
 		try
 		{
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -57,13 +74,14 @@ public class AethonDriver
 		{
 			e.printStackTrace();
 		}
+
 		LifeSupport lsPane = new LifeSupport();
 		LifeSupportAtmo lsAtPane = new LifeSupportAtmo();
 		AttNav anPane = new AttNav();
 		ElectricalSystems esPane = new ElectricalSystems();
 		CargoStates csPane = new CargoStates();
 		WarningAnnunciator waPane = new WarningAnnunciator();
-		AttInd attInd = new AttInd();
+
 		JFrame lsFrame = new JFrame();
 		JFrame lsFrameAtmo = new JFrame();
 		JFrame attFrame = new JFrame();
@@ -129,6 +147,7 @@ public class AethonDriver
 
 	private static void updateVars()
 	{
+		EphemerisMode.updateVars(executorMap);
 		for(PanelBase jp : paneArray)
 			jp.updateVars(executorMap);
 		for(DataExecutor de : executorMap.values())

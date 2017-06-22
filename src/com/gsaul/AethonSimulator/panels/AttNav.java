@@ -2,6 +2,7 @@ package com.gsaul.AethonSimulator.panels;
 
 import com.gsaul.AethonSimulator.DataExecutor;
 import com.gsaul.AethonSimulator.executors.EphemerisMode;
+import com.gsaul.AethonSimulator.executors.MasterMode;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -10,7 +11,6 @@ import java.util.Map;
 
 public class AttNav extends JPanel implements PanelBase
 {
-	private EphemerisMode em;
 	private double shiftedBy;
 
 	private JLabel UTCTime = new JLabel();
@@ -18,7 +18,6 @@ public class AttNav extends JPanel implements PanelBase
 	private JLabel eccentricityLabel = new JLabel();
 	public AttNav()
 	{
-		em = new EphemerisMode();
 		//setLayout(new GridLayout(10, 2));
 		setLayout(new BorderLayout());
 		setBackground(Color.DARK_GRAY.darker());
@@ -28,7 +27,7 @@ public class AttNav extends JPanel implements PanelBase
 
 	public void updateVars(Map<String, DataExecutor> executorMap)
 	{
-		System.out.println(em.getOrbit(shiftedBy));
+		//System.out.println(em.getOrbit(shiftedBy));
 		shiftedBy+=0.5;
 
 		/*

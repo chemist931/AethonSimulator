@@ -19,8 +19,8 @@ package com.gsaul.AethonSimulator.executors;
 
 import com.gsaul.AethonSimulator.DataExecutor;
 import java.io.File;
+import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import org.hipparchus.ode.AbstractIntegrator;
 import org.hipparchus.ode.nonstiff.ClassicalRungeKuttaIntegrator;
 import org.hipparchus.util.FastMath;
@@ -39,16 +39,20 @@ import org.orekit.time.AbsoluteDate;
 import org.orekit.time.TimeScale;
 import org.orekit.time.TimeScalesFactory;
 
-public class EphemerisMode implements DataExecutor
+public class EphemerisMode
 {
-	private AbsoluteDate initialDate;
-	private BoundedPropagator ephemeris;
-	public EphemerisMode()
+	private static AbsoluteDate initialDate;
+	private static AbsoluteDate currentDate;
+	private static BoundedPropagator ephemeris;
+	private static NumericalPropagator propagator;
+	private static double shiftedBy = 0;
+	private static double stepSize;
+	private static double shiftSize = 15;
+
+	public static void startEphemerisMode()
 	{
 		try
 		{
-
-			// configure Orekit
 			File home = new File(System.getProperty("user.home"));
 			File orekitData = new File(home, "orekit-data");
 			if(! orekitData.exists())
@@ -60,6 +64,7 @@ public class EphemerisMode implements DataExecutor
 						home.getAbsolutePath());
 				System.exit(1);
 			}
+
 			DataProvidersManager manager = DataProvidersManager.getInstance();
 			manager.addProvider(new DirectoryCrawler(orekitData));
 
@@ -77,7 +82,7 @@ public class EphemerisMode implements DataExecutor
 			// Initial date in UTC time scale
 			TimeScale utc = TimeScalesFactory.getUTC();
 			initialDate = new AbsoluteDate(2004, 01, 01, 23, 30, 00.000, utc);
-
+			currentDate = initialDate;
 			// gravitation coefficient
 			double mu = 3.986004415e+14;
 
@@ -90,9 +95,10 @@ public class EphemerisMode implements DataExecutor
 
 			// Numerical propagation with no perturbation (only Keplerian movement)
 			// Using a very simple integrator with a fixed step: classical Runge-Kutta
-			double stepSize = 10;  // the step is ten seconds
+			// the step is ten seconds
+			stepSize = 0.5;
 			AbstractIntegrator integrator = new ClassicalRungeKuttaIntegrator(stepSize);
-			NumericalPropagator propagator = new NumericalPropagator(integrator);
+			propagator = new NumericalPropagator(integrator);
 
 			// Set the propagator to ephemeris mode
 			propagator.setEphemerisMode();
@@ -101,7 +107,7 @@ public class EphemerisMode implements DataExecutor
 			propagator.setInitialState(initialState);
 
 			// Propagation with storage of the results in an integrated ephemeris
-			SpacecraftState finalState = propagator.propagate(initialDate.shiftedBy(6000));
+			SpacecraftState finalState = propagator.propagate(initialDate.shiftedBy(shiftSize)); //one month is 2628000
 
 			System.out.println(" Numerical propagation :");
 			System.out.println("  Final date : " + finalState.getDate());
@@ -109,33 +115,6 @@ public class EphemerisMode implements DataExecutor
 
 			// Getting the integrated ephemeris
 			ephemeris = propagator.getGeneratedEphemeris();
-
-			System.out.println(" Ephemeris defined from " + ephemeris.getMinDate() + " to " + ephemeris.getMaxDate());
-
-			System.out.println(" Ephemeris propagation :");
-			AbsoluteDate intermediateDate = initialDate.shiftedBy(3000);
-			SpacecraftState intermediateState = ephemeris.propagate(intermediateDate);
-			System.out.println("  date :  " + intermediateState.getDate());
-			System.out.println("  " + intermediateState.getOrbit());
-
-			intermediateDate = finalState.getDate();
-			intermediateState = ephemeris.propagate(intermediateDate);
-			System.out.println("  date :  " + intermediateState.getDate());
-			System.out.println("  " + intermediateState.getOrbit());
-
-			intermediateDate = initialDate.shiftedBy(- 1000);
-			System.out.println();
-			System.out.println("Attempting to propagate to date " + intermediateDate +
-					" which is OUT OF RANGE");
-			System.out.println("This propagation attempt should fail, " +
-					"so an error message shoud appear below, " +
-					"this is expected and shows that errors are handled correctly");
-			intermediateState = ephemeris.propagate(intermediateDate);
-
-			// these two print should never happen as en exception should have been triggered
-			System.out.println("  date :  " + intermediateState.getDate());
-			System.out.println("  " + intermediateState.getOrbit());
-
 		}
 		catch(OrekitException oe)
 		{
@@ -143,12 +122,12 @@ public class EphemerisMode implements DataExecutor
 		}
 	}
 
-	public String getOrbit(double d)
+	public static Orbit getOrbit()
 	{
 		try
 		{
-			AbsoluteDate intermediateDate = initialDate.shiftedBy(d);
-			return ephemeris.propagate(intermediateDate).getOrbit().toString();
+			AbsoluteDate intermediateDate = initialDate.shiftedBy(shiftedBy);
+			return ephemeris.propagate(intermediateDate).getOrbit();
 		}
 		catch(OrekitException e)
 		{
@@ -157,15 +136,39 @@ public class EphemerisMode implements DataExecutor
 		return null;
 	}
 
-	@Override
-	public void updateVars(Map<String, DataExecutor> map)
+	public static void updateVars(HashMap<String, DataExecutor> map)
 	{
-		return;
-	}
+		try
+		{
+			System.out.println(propagator.propagate(currentDate).getOrbit().toString());
+			System.out.println(currentDate.toString());
+			currentDate = initialDate.shiftedBy(shiftedBy);
+			if(currentDate.equals(ephemeris.getMaxDate().shiftedBy(-0.5)))
+			{
+				AbstractIntegrator integrator = new ClassicalRungeKuttaIntegrator(stepSize);
+				propagator = new NumericalPropagator(integrator);
 
-	@Override
-	public String getValName()
-	{
-		return "Ephemeris";
+				// Set the propagator to ephemeris mode
+				propagator.setEphemerisMode();
+
+				// Initialize propagation
+				propagator.setInitialState(new SpacecraftState(getOrbit()));
+
+				// Propagation with storage of the results in an integrated ephemeris
+				SpacecraftState finalState = propagator.propagate(currentDate.shiftedBy(shiftSize)); //one month is 2628000
+
+				System.out.println(" New Ephemerides:");
+				System.out.println("  Final date : " + finalState.getDate());
+				System.out.println("  " + finalState.getOrbit());
+
+				// Getting the integrated ephemeris
+				ephemeris = propagator.getGeneratedEphemeris();
+			}
+			shiftedBy+=0.5;
+		}
+		catch(OrekitException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
